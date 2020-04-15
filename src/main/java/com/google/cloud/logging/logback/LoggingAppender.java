@@ -39,10 +39,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -74,8 +72,6 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   private static final String LEVEL_NAME_KEY = "levelName";
   private static final String LEVEL_VALUE_KEY = "levelValue";
   private static final String LOGGER_NAME_KEY = "loggerName";
-  private static final String TYPE =
-      "type.googleapis.com/google.devtools.clouderrorreporting.v1beta1.ReportedErrorEvent";
   private static final List<LoggingEventEnhancer> DEFAULT_LOGGING_EVENT_ENHANCERS =
       ImmutableList.<LoggingEventEnhancer>of(new MDCEventEnhancer());
 
@@ -249,16 +245,6 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
     return logging;
   }
 
-  /** Flushes any pending asynchronous logging writes. */
-  public void flush() {
-    if (!isStarted()) {
-      return;
-    }
-    synchronized (this) {
-      getLogging().flush();
-    }
-  }
-
   /** Gets the {@link LoggingOptions} to use for this {@link LoggingAppender}. */
   protected LoggingOptions getLoggingOptions() {
     if (loggingOptions == null) {
@@ -288,17 +274,11 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
     writeStack(e.getThrowableProxy(), "", payload);
 
     Level level = e.getLevel();
-    Severity severity = severityFor(level);
-
-    Map<String, Object> jsonContent = new HashMap<>();
-    jsonContent.put("message", payload.toString().trim());
-    if (severity == Severity.ERROR) {
-      jsonContent.put("@type", TYPE);
-    }
     LogEntry.Builder builder =
-        LogEntry.newBuilder(Payload.JsonPayload.of(jsonContent))
+        LogEntry.newBuilder(Payload.StringPayload.of(payload.toString().trim()))
             .setTimestamp(e.getTimeStamp())
-            .setSeverity(severity);
+            .setSeverity(severityFor(level));
+
     builder
         .addLabel(LEVEL_NAME_KEY, level.toString())
         .addLabel(LEVEL_VALUE_KEY, String.valueOf(level.toInt()))

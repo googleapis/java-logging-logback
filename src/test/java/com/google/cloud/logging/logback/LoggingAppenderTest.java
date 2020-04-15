@@ -34,10 +34,9 @@ import com.google.cloud.logging.LogEntry;
 import com.google.cloud.logging.Logging;
 import com.google.cloud.logging.Logging.WriteOption;
 import com.google.cloud.logging.LoggingOptions;
-import com.google.cloud.logging.Payload.JsonPayload;
+import com.google.cloud.logging.Payload.StringPayload;
 import com.google.cloud.logging.Severity;
 import com.google.common.collect.ImmutableMap;
-import java.util.HashMap;
 import java.util.Map;
 import org.easymock.Capture;
 import org.easymock.EasyMock;
@@ -83,11 +82,8 @@ public class LoggingAppenderTest {
 
   @Test
   public void testFlushLevelConfigUpdatesLoggingFlushSeverity() {
-    Map<String, Object> jsonContent = new HashMap<>();
-    jsonContent.put("message", "this is a test");
-    JsonPayload payload = JsonPayload.of(jsonContent);
     LogEntry logEntry =
-        LogEntry.newBuilder(payload)
+        LogEntry.newBuilder(StringPayload.of("this is a test"))
             .setTimestamp(100000L)
             .setSeverity(Severity.WARNING)
             .setLabels(
@@ -114,14 +110,8 @@ public class LoggingAppenderTest {
 
   @Test
   public void testFilterLogsOnlyLogsAtOrAboveLogLevel() {
-    Map<String, Object> jsonContent = new HashMap<>();
-    jsonContent.put("message", "this is a test");
-    jsonContent.put(
-        "@type",
-        "type.googleapis.com/google.devtools.clouderrorreporting.v1beta1.ReportedErrorEvent");
-    JsonPayload payload = JsonPayload.of(jsonContent);
     LogEntry logEntry =
-        LogEntry.newBuilder(payload)
+        LogEntry.newBuilder(StringPayload.of("this is a test"))
             .setTimestamp(100000L)
             .setSeverity(Severity.ERROR)
             .setLabels(
@@ -155,11 +145,8 @@ public class LoggingAppenderTest {
 
   @Test
   public void testEnhancersAddCorrectLabelsToLogEntries() {
-    Map<String, Object> jsonContent = new HashMap<>();
-    jsonContent.put("message", "this is a test");
-    JsonPayload payload = JsonPayload.of(jsonContent);
     LogEntry logEntry =
-        LogEntry.newBuilder(payload)
+        LogEntry.newBuilder(StringPayload.of("this is a test"))
             .setTimestamp(100000L)
             .setSeverity(Severity.WARNING)
             .setLabels(
@@ -207,11 +194,8 @@ public class LoggingAppenderTest {
 
   @Test
   public void testMdcValuesAreConvertedToLabels() {
-    Map<String, Object> jsonContent = new HashMap<>();
-    jsonContent.put("message", "this is a test");
-    JsonPayload payload = JsonPayload.of(jsonContent);
     LogEntry logEntry =
-        LogEntry.newBuilder(payload)
+        LogEntry.newBuilder(StringPayload.of("this is a test"))
             .setTimestamp(100000L)
             .setSeverity(Severity.INFO)
             .setLabels(
@@ -319,24 +303,6 @@ public class LoggingAppenderTest {
     assertThat(capturedArgumentMap.get("mdc1")).isNull();
     assertThat(capturedArgumentMap.get("foo")).isEqualTo("foo");
     assertThat(capturedArgumentMap.get("bar")).isEqualTo("bar");
-  }
-
-  @Test
-  public void testFlush() {
-    logging.setFlushSeverity(Severity.ERROR);
-    Capture<Iterable<LogEntry>> capturedArgument = Capture.newInstance();
-    logging.write(capture(capturedArgument), (WriteOption) anyObject(), (WriteOption) anyObject());
-    expectLastCall().times(2);
-    logging.flush();
-    replay(logging);
-    loggingAppender.start();
-    Timestamp timestamp = Timestamp.ofTimeSecondsAndNanos(100000, 0);
-    LoggingEvent firstLoggingEvent = createLoggingEvent(Level.WARN, timestamp.getSeconds());
-    LoggingEvent secondLoggingEvent = createLoggingEvent(Level.INFO, timestamp.getSeconds());
-    loggingAppender.doAppend(firstLoggingEvent);
-    loggingAppender.doAppend(secondLoggingEvent);
-    loggingAppender.flush();
-    verify(logging);
   }
 
   static class CustomLoggingEventEnhancer1 implements LoggingEventEnhancer {
