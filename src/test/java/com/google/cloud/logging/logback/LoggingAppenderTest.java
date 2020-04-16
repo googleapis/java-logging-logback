@@ -154,6 +154,50 @@ public class LoggingAppenderTest {
   }
 
   @Test
+  public void testServiceContextAddedToErrors() {
+    Map<String, Object> jsonContent = new HashMap<>();
+    jsonContent.put("message", "this is a test");
+    jsonContent.put(
+        "@type",
+        "type.googleapis.com/google.devtools.clouderrorreporting.v1beta1.ReportedErrorEvent");
+    Map<String, Object> serviceContext = new HashMap<>();
+    serviceContext.put("service", "testapp");
+    serviceContext.put("version", "v1-alpha");
+    jsonContent.put("serviceContext", serviceContext);
+    JsonPayload payload = JsonPayload.of(jsonContent);
+    LogEntry logEntry =
+        LogEntry.newBuilder(payload)
+            .setTimestamp(100000L)
+            .setSeverity(Severity.ERROR)
+            .setLabels(
+                new ImmutableMap.Builder<String, String>()
+                    .put("levelName", "ERROR")
+                    .put("levelValue", String.valueOf(40000L))
+                    .put("loggerName", this.getClass().getName())
+                    .build())
+            .build();
+    logging.setFlushSeverity(Severity.ERROR);
+    Capture<Iterable<LogEntry>> capturedArgument = Capture.newInstance();
+    logging.write(capture(capturedArgument), (WriteOption) anyObject(), (WriteOption) anyObject());
+    expectLastCall().once();
+    replay(logging);
+    Timestamp timestamp = Timestamp.ofTimeSecondsAndNanos(100000, 0);
+
+    ThresholdFilter thresholdFilter = new ThresholdFilter();
+    thresholdFilter.setLevel("ERROR");
+    thresholdFilter.start();
+    loggingAppender.addFilter(thresholdFilter);
+    loggingAppender.setServiceName("testapp");
+    loggingAppender.setServiceVersion("v1-alpha");
+    loggingAppender.start();
+    LoggingEvent loggingEvent = createLoggingEvent(Level.ERROR, timestamp.getSeconds());
+    loggingAppender.doAppend(loggingEvent);
+    verify(logging);
+    assertThat(capturedArgument.getValue().iterator().hasNext()).isTrue();
+    assertThat(capturedArgument.getValue().iterator().next()).isEqualTo(logEntry);
+  }
+
+  @Test
   public void testEnhancersAddCorrectLabelsToLogEntries() {
     Map<String, Object> jsonContent = new HashMap<>();
     jsonContent.put("message", "this is a test");

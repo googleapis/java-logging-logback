@@ -95,6 +95,9 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   private Level flushLevel;
   private String log;
   private String resourceType;
+  private String serviceName;
+
+  private String serviceVersion;
   private String credentialsFile;
   private final Set<String> enhancerClassNames = new HashSet<>();
   private final Set<String> loggingEventEnhancerClassNames = new HashSet<>();
@@ -131,6 +134,32 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
    */
   public void setResourceType(String resourceType) {
     this.resourceType = resourceType;
+  }
+
+  /**
+   * Sets the service name used in Error Reporting (Optional).
+   *
+   * An identifier of the service, such as the name of the executable, job, or Google App Engine
+   * service name. This field is expected to have a low number of values that are relatively stable
+   * over time, as opposed to version, which can be changed whenever new code is deployed.
+   *
+   * @param serviceName name used in Error Reporting Service Context
+   */
+  public void setServiceName(String serviceName) {
+    this.serviceName = serviceName;
+  }
+
+  /**
+   * Sets the service version used in Error Reporting (Optional).
+   *
+   * Represents the source code version that the developer provided, which could represent a version
+   * label or a Git SHA-1 hash, for example. For App Engine standard environment, the version is set
+   * to the version of the app.
+   *
+   * @param serviceVersion version used in Error Reporting Service Context
+   */
+  public void setServiceVersion(String serviceVersion) {
+    this.serviceVersion = serviceVersion;
   }
 
   /**
@@ -301,6 +330,14 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
     jsonContent.put("message", payload.toString().trim());
     if (severity == Severity.ERROR) {
       jsonContent.put("@type", TYPE);
+      if (serviceName != null && !serviceName.isEmpty()) {
+        Map<String, Object> serviceContext = new HashMap<>();
+        serviceContext.put("service", serviceName);
+        if (serviceVersion != null && !serviceVersion.isEmpty()) {
+          serviceContext.put("version", serviceVersion);
+        }
+        jsonContent.put("serviceContext", serviceContext);
+      }
     }
     LogEntry.Builder builder =
         LogEntry.newBuilder(Payload.JsonPayload.of(jsonContent))
