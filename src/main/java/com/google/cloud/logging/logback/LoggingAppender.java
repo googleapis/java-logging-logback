@@ -137,11 +137,13 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   }
 
   /**
-   * Sets the service name used in Error Reporting (Optional).
+   * Sets the service name used in Error Reporting.
    *
    * An identifier of the service, such as the name of the executable, job, or Google App Engine
    * service name. This field is expected to have a low number of values that are relatively stable
    * over time, as opposed to version, which can be changed whenever new code is deployed.
+   *
+   * If NULL, errors will be reported as "STACKDRIVER_SERVICE_IS_UNDEFINED".
    *
    * @param serviceName name used in Error Reporting Service Context
    */
