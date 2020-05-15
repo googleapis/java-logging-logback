@@ -37,16 +37,16 @@ If you are using Maven without a BOM, add this to your dependencies.
 <dependency>
   <groupId>com.google.cloud</groupId>
   <artifactId>google-cloud-logging-logback</artifactId>
-  <version>0.116.0-alpha</version>
+  <version>0.117.0</version>
 </dependency>
 ```
 If you are using Gradle, add this to your dependencies
 ```Groovy
-compile 'com.google.cloud:google-cloud-logging-logback:0.116.0-alpha'
+compile 'com.google.cloud:google-cloud-logging-logback:0.117.0'
 ```
 If you are using SBT, add this to your dependencies
 ```Scala
-libraryDependencies += "com.google.cloud" % "google-cloud-logging-logback" % "0.116.0-alpha"
+libraryDependencies += "com.google.cloud" % "google-cloud-logging-logback" % "0.117.0"
 ```
 
 Usage 
@@ -60,18 +60,28 @@ See [Logback filters](https://logback.qos.ch/manual/filters.html#thresholdFilter
 ```xml
 <configuration>
   <appender name="CLOUD" class="com.google.cloud.logging.logback.LoggingAppender">
-    <!-- Optional : filter logs at or above a level -->
+    <!-- Optional: filter logs at and above this level --> 
     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-      <level>INFO</level>
+        <level>INFO</level>
     </filter>
-    <log>application.log</log> <!-- Optional : default java.log -->
-    <!-- Optional : will use the default credentials of the environment if this property is not set -->
-    <credentialsFile>/path/to/credentials.json</credentialsFile>
-    <enhancer>com.example.enhancers.TestLoggingEnhancer</enhancer> <!-- Optional -->
-    <enhancer>com.example.enhancers.AnotherEnhancer</enhancer> <!-- Optional -->
-    <flushLevel>WARN</flushLevel> <!-- Optional : default ERROR -->
+    
+    <!-- Optional: defaults to "java.log" -->
+    <log>application.log</log>
+  
+    <!-- Optional: defaults to "ERROR" -->
+    <flushLevel>WARNING</flushLevel>
+  
+    <!-- Optional: auto detects on App Engine Flex, Standard, GCE and GKE, defaults to "global". See supported resource types  -->
+    <resourceType></resourceType>
+  
+    <!-- Optional: defaults to the default credentials of the environment -->
+    <credentialsFile>/path/to/credentials/file</credentialsFile>
+  
+    <!-- Optional: add custom labels to log entries using LoggingEnhancer classes -->
+    <enhancer>com.example.enhancer1</enhancer>
+    <enhancer>com.example.enhancer2</enhancer>
   </appender>
-
+   
   <root level="info">
     <appender-ref ref="CLOUD" />
   </root>
