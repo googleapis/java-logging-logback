@@ -78,8 +78,8 @@ See [Logback filters](https://logback.qos.ch/manual/filters.html#thresholdFilter
     <credentialsFile>/path/to/credentials/file</credentialsFile>
   
     <!-- Optional: add custom labels to log entries using LoggingEnhancer classes -->
-    <enhancer>com.example.enhancer1</enhancer>
-    <enhancer>com.example.enhancer2</enhancer>
+    <enhancer>com.example.enhancers.TestLoggingEnhancer</enhancer>
+    <enhancer>com.example.enhancers.AnotherEnhancer</enhancer>
   </appender>
    
   <root level="info">

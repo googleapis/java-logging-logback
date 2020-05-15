@@ -71,8 +71,8 @@ import java.util.Set;
  *         &lt;credentialsFile&gt;/path/to/credentials/file&lt;/credentialsFile&gt;
  *
  *         &lt;!-- Optional: add custom labels to log entries using {@link LoggingEnhancer} classes --&gt;
- *         &lt;enhancer&gt;com.example.enhancer1&lt/enhancer&gt;
- *         &lt;enhancer&gt;com.example.enhancer2&lt/enhancer&gt;
+ *         &lt;enhancer&gt;com.example.enhancers.TestLoggingEnhancer&lt/enhancer&gt;
+ *         &lt;enhancer&gt;com.example.enhancers.AnotherEnhancer&lt/enhancer&gt;
  *     &lt;/appender&gt;
  * </pre>
  */
