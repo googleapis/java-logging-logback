@@ -1,5 +1,19 @@
 # Changelog
 
+### [0.117.1](https://www.github.com/googleapis/java-logging-logback/compare/v0.117.0...v0.117.1) (2020-06-10)
+
+
+### Dependencies
+
+* update dependency com.google.cloud:google-cloud-core to v1.93.5 ([#71](https://www.github.com/googleapis/java-logging-logback/issues/71)) ([b4b2641](https://www.github.com/googleapis/java-logging-logback/commit/b4b2641e20dbecc20e28dc24422dcbb5c2e64e6a))
+* update dependency com.google.cloud:google-cloud-logging to v1.101.2 ([#75](https://www.github.com/googleapis/java-logging-logback/issues/75)) ([bef40a1](https://www.github.com/googleapis/java-logging-logback/commit/bef40a1d8bb7358a034026023800939e945a46d3))
+* update dependency com.google.guava:guava-bom to v29 ([#77](https://www.github.com/googleapis/java-logging-logback/issues/77)) ([e4a14bf](https://www.github.com/googleapis/java-logging-logback/commit/e4a14bfa5b48d0f5a1857ab081ac46d6dcee02d0))
+
+
+### Documentation
+
+* generate readme from synth.py ([#96](https://www.github.com/googleapis/java-logging-logback/issues/96)) ([17abe99](https://www.github.com/googleapis/java-logging-logback/commit/17abe996c2e25f593cf5dbd36a898170887fe26d))
+
 ## [0.117.0](https://www.github.com/googleapis/java-logging-logback/compare/0.116.0...v0.117.0) (2020-04-02)
 
 
