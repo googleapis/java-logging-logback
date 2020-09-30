@@ -4,14 +4,14 @@
       "git": {
         "name": ".",
         "remote": "https://github.com/googleapis/java-logging-logback.git",
-        "sha": "8d38976f44712fd691c74b23208275c4efde9b66"
+        "sha": "2e39c1159b97a44e3b8fe34a30e7835303b013ec"
       }
     },
     {
       "git": {
         "name": "synthtool",
         "remote": "https://github.com/googleapis/synthtool.git",
-        "sha": "916c10e8581804df2b48a0f0457d848f3faa582e"
+        "sha": "95dbe1bee3c7f7e52ddb24a54c37080620e0d1a2"
       }
     }
   ],
@@ -73,7 +73,6 @@
     "CODE_OF_CONDUCT.md",
     "CONTRIBUTING.md",
     "LICENSE",
-    "README.md",
     "codecov.yaml",
     "java.header",
     "license-checks.xml",
