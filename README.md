@@ -64,62 +64,6 @@ See the [Cloud Logging Logback Appender client library docs][javadocs] to learn 
 use this Cloud Logging Logback Appender Client Library.
 
 
-### Usage
-Add the appender to your [Logback configuration](https://logback.qos.ch/manual/configuration.html) `logback.xml`.
-See [Logback filters](https://logback.qos.ch/manual/filters.html#thresholdFilter) for information on filtering log output and
- [encoders](https://logback.qos.ch/manual/encoders.html) for information on formatting.
-
-
-```xml
-<configuration>
-  <appender name="CLOUD" class="com.google.cloud.logging.logback.LoggingAppender">
-    <!-- Optional: filter logs at and above this level -->
-    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-        <level>INFO</level>
-    </filter>
-
-    <!-- Optional: defaults to "java.log" -->
-    <log>application.log</log>
-
-    <!-- Optional: defaults to "ERROR" -->
-    <flushLevel>WARNING</flushLevel>
-
-    <!-- Optional: auto detects on App Engine Flex, Standard, GCE and GKE, defaults to "global". See supported resource types  -->
-    <resourceType></resourceType>
-
-    <!-- Optional: defaults to the default credentials of the environment -->
-    <credentialsFile>/path/to/credentials/file</credentialsFile>
-
-    <!-- Optional: add custom labels to log entries using LoggingEnhancer classes -->
-    <enhancer>com.example.enhancers.TestLoggingEnhancer</enhancer>
-    <enhancer>com.example.enhancers.AnotherEnhancer</enhancer>
-  </appender>
-
-  <root level="info">
-    <appender-ref ref="CLOUD" />
-  </root>
-</configuration>
-```
-
-In your code :
-
-```java
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-public class TestLogger {
-    private final Logger logger = LoggerFactory.getLogger(TestLogger.class);
-
-    public void log(String name) {
-        logger.info("This is a test");
-    }
-
-    public static void main(String[] args) {
-        TestLogger testLogger = new TestLogger();
-        testLogger.log("test");
-    }
-}
-```
 
 
 
