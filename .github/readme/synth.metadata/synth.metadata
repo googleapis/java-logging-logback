@@ -1,0 +1,18 @@
+{
+  "sources": [
+    {
+      "git": {
+        "name": ".",
+        "remote": "https://github.com/googleapis/java-logging-logback.git",
+        "sha": "03f8d4aeb870d1c3d43c293d00d85c6bfff24734"
+      }
+    },
+    {
+      "git": {
+        "name": "synthtool",
+        "remote": "https://github.com/googleapis/synthtool.git",
+        "sha": "477764cc4ee6db346d3febef2bb1ea0abf27de52"
+      }
+    }
+  ]
+}
