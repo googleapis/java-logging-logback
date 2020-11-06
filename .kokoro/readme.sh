@@ -29,7 +29,7 @@ git config --global credential.helper 'store --file ~/.git-credentials'
 
 python3.6 -m pip install git+https://github.com/googleapis/synthtool.git#egg=gcp-synthtool
 
-set +3
+set +e
 python3.6 -m autosynth.synth \
     --repository=googleapis/java-logging-logback \
     --synth-file-name=.github/readme/synth.py \
