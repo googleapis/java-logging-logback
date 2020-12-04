@@ -25,40 +25,40 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TraceLoggingEventEnhancerTest {
-    private TraceLoggingEventEnhancer classUnderTest;
+  private TraceLoggingEventEnhancer classUnderTest;
 
-    @Before
-    public void setUp() {
-        classUnderTest = new TraceLoggingEventEnhancer();
-    }
+  @Before
+  public void setUp() {
+    classUnderTest = new TraceLoggingEventEnhancer();
+  }
 
-    @Test
-    public void testEnhanceLogEntry() {
-        // setup
-        String traceId = "abc";
-        TraceLoggingEventEnhancer.setCurrentTraceId(traceId);
-        LoggingEvent loggingEvent = new LoggingEvent();
-        loggingEvent.setMessage("this is a test");
-        LogEntry.Builder builder = LogEntry.newBuilder(StringPayload.of("this is a test"));
+  @Test
+  public void testEnhanceLogEntry() {
+    // setup
+    String traceId = "abc";
+    TraceLoggingEventEnhancer.setCurrentTraceId(traceId);
+    LoggingEvent loggingEvent = new LoggingEvent();
+    loggingEvent.setMessage("this is a test");
+    LogEntry.Builder builder = LogEntry.newBuilder(StringPayload.of("this is a test"));
 
-        // act
-        classUnderTest.enhanceLogEntry(builder, loggingEvent);
-        LogEntry logEntry = builder.build();
+    // act
+    classUnderTest.enhanceLogEntry(builder, loggingEvent);
+    LogEntry logEntry = builder.build();
 
-        // assert - Trace Id should be recorded as explicit Trace field, not as a label
-        assertThat(traceId.equalsIgnoreCase(logEntry.getTrace()));
-    }
+    // assert - Trace Id should be recorded as explicit Trace field, not as a label
+    assertThat(traceId.equalsIgnoreCase(logEntry.getTrace()));
+  }
 
-    @Test
-    public void testGetCurrentTraceId() {
-        // setup
-        String traceId = "abc";
-        TraceLoggingEventEnhancer.setCurrentTraceId(traceId);
+  @Test
+  public void testGetCurrentTraceId() {
+    // setup
+    String traceId = "abc";
+    TraceLoggingEventEnhancer.setCurrentTraceId(traceId);
 
-        // act
-        String currentTraceId = TraceLoggingEventEnhancer.getCurrentTraceId();
+    // act
+    String currentTraceId = TraceLoggingEventEnhancer.getCurrentTraceId();
 
-        // assert
-        assertThat(traceId.equalsIgnoreCase(currentTraceId));
-    }
+    // assert
+    assertThat(traceId.equalsIgnoreCase(currentTraceId));
+  }
 }

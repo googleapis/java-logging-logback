@@ -21,36 +21,36 @@ import com.google.cloud.logging.LogEntry;
 import org.slf4j.MDC;
 
 /* Adds support for grouping logs by incoming http request
-*  */
+ *  */
 public class TraceLoggingEventEnhancer implements LoggingEventEnhancer {
 
-    // A key used by Cloud Logging for trace Id
-    private static final String TRACE_ID = "logging.googleapis.trace";
+  // A key used by Cloud Logging for trace Id
+  private static final String TRACE_ID = "logging.googleapis.trace";
 
-    /**
-     * Set the Trace ID associated with any logging done by the current thread.
-     *
-     * @param id The traceID, in the form projects/[PROJECT_ID]/traces/[TRACE_ID]
-     */
-    public static void setCurrentTraceId(String id) {
-        MDC.put(TRACE_ID, id);
+  /**
+   * Set the Trace ID associated with any logging done by the current thread.
+   *
+   * @param id The traceID, in the form projects/[PROJECT_ID]/traces/[TRACE_ID]
+   */
+  public static void setCurrentTraceId(String id) {
+    MDC.put(TRACE_ID, id);
+  }
+
+  /**
+   * Get the Trace ID associated with any logging done by the current thread.
+   *
+   * @return id The traceID
+   */
+  public static String getCurrentTraceId() {
+    return MDC.get(TRACE_ID);
+  }
+
+  @Override
+  public void enhanceLogEntry(LogEntry.Builder builder, ILoggingEvent e) {
+    Object value = e.getMDCPropertyMap().get(TRACE_ID);
+    String traceId = value != null ? value.toString() : null;
+    if (traceId != null) {
+      builder.setTrace(traceId);
     }
-
-    /**
-     * Get the Trace ID associated with any logging done by the current thread.
-     *
-     * @return id The traceID
-     */
-    public static String getCurrentTraceId() {
-        return MDC.get(TRACE_ID);
-    }
-
-
-    @Override
-    public void enhanceLogEntry(LogEntry.Builder builder, ILoggingEvent e) {
-        String traceId = e.getMDCPropertyMap().getOrDefault(TRACE_ID, null);
-        if (traceId != null) {
-            builder.setTrace(traceId);
-        }
-    }
+  }
 }
