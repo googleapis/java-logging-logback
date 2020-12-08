@@ -20,8 +20,9 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import com.google.cloud.logging.LogEntry;
 import org.slf4j.MDC;
 
-/* Adds support for grouping logs by incoming http request
- *  */
+/** Adds support for grouping logs by incoming http request
+ *
+ */
 public class TraceLoggingEventEnhancer implements LoggingEventEnhancer {
 
   // A key used by Cloud Logging for trace Id
