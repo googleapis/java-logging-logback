@@ -31,13 +31,12 @@ public class TraceLoggingEventEnhancer implements LoggingEventEnhancer {
    *
    * @param id The traceID, in the form projects/[PROJECT_ID]/traces/[TRACE_ID]
    */
-  public static void setCurrentTraceId(String id) { MDC.put(TRACE_ID, id); }
+  public static void setCurrentTraceId(String id) {
+    MDC.put(TRACE_ID, id);
+  }
 
-  /**
-   * Clearing a trace Id from the MDC
-   *
-   */
-   public static void clearTraceId() {
+  /** Clearing a trace Id from the MDC */
+  public static void clearTraceId() {
     MDC.remove(TRACE_ID);
   }
   /**
