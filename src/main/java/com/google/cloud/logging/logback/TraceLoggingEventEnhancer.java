@@ -33,6 +33,10 @@ public class TraceLoggingEventEnhancer implements LoggingEventEnhancer {
    */
   public static void setCurrentTraceId(String id) { MDC.put(TRACE_ID, id); }
 
+  /** Clearing a trace Id from the MDC */
+  public static void clearTraceId() {
+    MDC.remove(TRACE_ID);
+  }
   /**
    * Clearing a trace Id from the MDC
    *
