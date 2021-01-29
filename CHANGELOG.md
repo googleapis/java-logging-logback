@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.119.8](https://www.github.com/googleapis/java-logging-logback/compare/v0.119.7...v0.119.8) (2021-01-29)
+
+
+### Documentation
+
+* fix broken cloud link ([#315](https://www.github.com/googleapis/java-logging-logback/issues/315)) ([dddbeaf](https://www.github.com/googleapis/java-logging-logback/commit/dddbeaf35f6825bded644b4abff9da39cd2bdda2))
+
 ### [0.119.7](https://www.github.com/googleapis/java-logging-logback/compare/v0.119.6...v0.119.7) (2021-01-26)
 
 
