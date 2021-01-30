@@ -117,7 +117,7 @@ public class LoggingAppenderTest {
     loggingAppender.setFlushLevel(Level.OFF);
     loggingAppender.start();
     Severity foundSeverity = logging.getFlushSeverity();
-    assertThat(null, is(foundSeverity));
+    assertThat(foundSeverity).isEqualTo(null);
   }
 
   @Test
