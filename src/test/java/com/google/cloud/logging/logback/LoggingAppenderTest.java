@@ -113,6 +113,14 @@ public class LoggingAppenderTest {
   }
 
   @Test
+  public void testFlushLevelConfigSupportsFlushLevelOff() {
+    loggingAppender.setFlushLevel(Level.OFF);
+    loggingAppender.start();
+    Severity foundSeverity = logging.getFlushSeverity();
+    assertThat(null, is(foundSeverity));
+  }
+
+  @Test
   public void testFilterLogsOnlyLogsAtOrAboveLogLevel() {
     Map<String, Object> jsonContent = new HashMap<>();
     jsonContent.put("message", "this is a test");
