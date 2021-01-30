@@ -213,7 +213,7 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
         new WriteOption[] {WriteOption.logName(getLogName()), WriteOption.resource(resource)};
     Level flushLevel = getFlushLevel();
     if (flushLevel != Level.OFF) {
-        getLogging().setFlushSeverity(severityFor(flushLevel));
+      getLogging().setFlushSeverity(severityFor(flushLevel));
     }
     loggingEnhancers = new ArrayList<>();
     List<LoggingEnhancer> resourceEnhancers = MonitoredResourceUtil.getResourceEnhancers();
