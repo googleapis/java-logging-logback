@@ -271,6 +271,11 @@ public class LoggingAppenderTest {
       LoggingOptions options = appender.getLoggingOptions();
       assertThat(options).isEqualTo(defaultOptions);
     }
+    // Try to build LoggingOptions with projectId.
+    appender = new LoggingAppender();
+    appender.setProjectId("project-id");
+    LoggingOptions options = appender.getLoggingOptions();
+    assertThat(options.getProjectId()).isEqualTo("project-id");
   }
 
   private LoggingEvent createLoggingEvent(Level level, long timestamp) {
