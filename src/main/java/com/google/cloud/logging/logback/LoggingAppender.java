@@ -71,6 +71,9 @@ import java.util.Set;
  *         &lt;!-- Optional: defaults to the default credentials of the environment --&gt;
  *         &lt;credentialsFile&gt;/path/to/credentials/file&lt;/credentialsFile&gt;
  *
+ *         &lt;!-- Optional: defaults to the projectId specified in the environment or credentials --&gt;
+ *         &lt;projectId&gt;project-id&lt;/projectId&gt;
+ *
  *         &lt;!-- Optional: add custom labels to log entries using {@link LoggingEnhancer} classes --&gt;
  *         &lt;enhancer&gt;com.example.enhancers.TestLoggingEnhancer&lt/enhancer&gt;
  *         &lt;enhancer&gt;com.example.enhancers.AnotherEnhancer&lt/enhancer&gt;

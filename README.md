@@ -88,6 +88,9 @@ See [Logback filters](https://logback.qos.ch/manual/filters.html#thresholdFilter
     <!-- Optional: defaults to the default credentials of the environment -->
     <credentialsFile>/path/to/credentials/file</credentialsFile>
 
+    <!-- Optional: defaults to the projectId specified in the environment or credentials -->
+    <projectId>project-id</projectId>
+
     <!-- Optional: add custom labels to log entries using LoggingEnhancer classes -->
     <enhancer>com.example.enhancers.TestLoggingEnhancer</enhancer>
     <enhancer>com.example.enhancers.AnotherEnhancer</enhancer>
