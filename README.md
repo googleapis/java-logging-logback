@@ -8,8 +8,11 @@ Java idiomatic client for [Cloud Logging Logback Appender][product-docs].
 - [Product Documentation][product-docs]
 - [Client Library Documentation][javadocs]
 
+
 > Note: This client is a work-in-progress, and may occasionally
 > make backwards-incompatible changes.
+
+
 
 ## Quickstart
 
