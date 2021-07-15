@@ -25,6 +25,7 @@ import ch.qos.logback.core.util.Loader;
 import com.google.api.core.InternalApi;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.MonitoredResource;
+import com.google.cloud.ServiceOptions;
 import com.google.cloud.logging.LogEntry;
 import com.google.cloud.logging.Logging;
 import com.google.cloud.logging.Logging.WriteOption;
@@ -70,6 +71,9 @@ import java.util.Set;
  *         &lt;!-- Optional: defaults to the default credentials of the environment --&gt;
  *         &lt;credentialsFile&gt;/path/to/credentials/file&lt;/credentialsFile&gt;
  *
+ *         &lt;!-- Optional: defaults to the projectId specified in the environment or credentials --&gt;
+ *         &lt;projectId&gt;project-id&lt;/projectId&gt;
+ *
  *         &lt;!-- Optional: add custom labels to log entries using {@link LoggingEnhancer} classes --&gt;
  *         &lt;enhancer&gt;com.example.enhancers.TestLoggingEnhancer&lt/enhancer&gt;
  *         &lt;enhancer&gt;com.example.enhancers.AnotherEnhancer&lt/enhancer&gt;
@@ -90,6 +94,7 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   private LoggingOptions loggingOptions;
   private List<LoggingEnhancer> loggingEnhancers;
   private List<LoggingEventEnhancer> loggingEventEnhancers;
+  private String projectId;
   private WriteOption[] defaultWriteOptions;
 
   private Level flushLevel;
@@ -142,6 +147,16 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
    */
   public void setCredentialsFile(String credentialsFile) {
     this.credentialsFile = credentialsFile;
+  }
+
+  /**
+   * Sets the projectId to use to create the {@link LoggingOptions}. The projectId returned by
+   * {@link ServiceOptions#getDefaultProjectId()} will be used if no custom projectId has been set.
+   *
+   * @param projectId The projectId to use.
+   */
+  public void setProjectId(String projectId) {
+    this.projectId = projectId;
   }
 
   /** Add extra labels using classes that implement {@link LoggingEnhancer}. */
@@ -272,15 +287,14 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   /** Gets the {@link LoggingOptions} to use for this {@link LoggingAppender}. */
   protected LoggingOptions getLoggingOptions() {
     if (loggingOptions == null) {
-      if (Strings.isNullOrEmpty(credentialsFile)) {
-        loggingOptions = LoggingOptions.getDefaultInstance();
-      } else {
+      LoggingOptions.Builder builder = LoggingOptions.newBuilder();
+      if (!Strings.isNullOrEmpty(projectId)) {
+        builder.setProjectId(projectId);
+      }
+      if (!Strings.isNullOrEmpty(credentialsFile)) {
         try {
-          loggingOptions =
-              LoggingOptions.newBuilder()
-                  .setCredentials(
-                      GoogleCredentials.fromStream(new FileInputStream(credentialsFile)))
-                  .build();
+          builder.setCredentials(
+              GoogleCredentials.fromStream(new FileInputStream(credentialsFile)));
         } catch (IOException e) {
           throw new RuntimeException(
               String.format(
@@ -289,6 +303,7 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
               e);
         }
       }
+      loggingOptions = builder.build();
     }
     return loggingOptions;
   }
