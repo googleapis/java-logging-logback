@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.122.0](https://www.github.com/googleapis/java-logging-logback/compare/v0.121.4...v0.122.0) (2021-08-04)
+
+
+### Features
+
+* configure initial sp version ([#471](https://www.github.com/googleapis/java-logging-logback/issues/471)) ([531f87d](https://www.github.com/googleapis/java-logging-logback/commit/531f87d6cdd05861c1bf98186f7e79eb0107e030))
+
 ### [0.121.4](https://www.github.com/googleapis/java-logging-logback/compare/v0.121.3...v0.121.4) (2021-07-27)
 
 
