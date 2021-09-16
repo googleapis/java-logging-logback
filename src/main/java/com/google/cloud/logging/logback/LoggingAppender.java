@@ -64,6 +64,9 @@ import java.util.Set;
  *         &lt;!-- Optional: defaults to "ERROR" --&gt;
  *         &lt;flushLevel&gt;WARNING&lt;/flushLevel&gt;
  *
+ *         &lt;!-- Optional: defaults to "ASYNC" --&gt;
+ *         &lt;writeSynchronicity&gt;SYNC&lt;/writeSynchronicity&gt;
+ *
  *         &lt;!-- Optional: auto detects on App Engine Flex, Standard, GCE and GKE, defaults to "global". See <a
  *         href=
  * "https://cloud.google.com/logging/docs/api/v2/resource-list">supported resource types</a> --&gt;
@@ -98,7 +101,7 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   private String log;
   private String resourceType;
   private String credentialsFile;
-  private Synchronicity writeSyncFlag;
+  private Synchronicity writeSyncFlag = Synchronicity.ASYNC;
   private final Set<String> enhancerClassNames = new HashSet<>();
   private final Set<String> loggingEventEnhancerClassNames = new HashSet<>();
 
@@ -154,7 +157,6 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
    * @param log flag
    */
   public void setWriteSynchronicity(String flag) {
-    System.out.println("##### Captured writeSynchronicity config = " + flag);
     try {
       this.writeSyncFlag = Synchronicity.valueOf(flag);
     } catch (IllegalArgumentException e) {
@@ -278,7 +280,6 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
         if (logging == null) {
           logging = getLoggingOptions().getService();
           logging.setWriteSynchronicity(writeSyncFlag);
-          System.out.println("####### Setting write synchronicity for logging to " + writeSyncFlag);
         }
       }
     }
