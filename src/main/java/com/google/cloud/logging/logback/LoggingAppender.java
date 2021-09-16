@@ -33,6 +33,7 @@ import com.google.cloud.logging.LoggingOptions;
 import com.google.cloud.logging.MonitoredResourceUtil;
 import com.google.cloud.logging.Payload;
 import com.google.cloud.logging.Severity;
+import com.google.cloud.logging.Synchronicity;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import java.io.FileInputStream;
@@ -64,7 +65,8 @@ import java.util.Set;
  *         &lt;flushLevel&gt;WARNING&lt;/flushLevel&gt;
  *
  *         &lt;!-- Optional: auto detects on App Engine Flex, Standard, GCE and GKE, defaults to "global". See <a
- *         href="https://cloud.google.com/logging/docs/api/v2/resource-list">supported resource types</a> --&gt;
+ *         href=
+ * "https://cloud.google.com/logging/docs/api/v2/resource-list">supported resource types</a> --&gt;
  *         &lt;resourceType&gt;&lt;/resourceType&gt;
  *
  *         &lt;!-- Optional: defaults to the default credentials of the environment --&gt;
@@ -96,6 +98,7 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   private String log;
   private String resourceType;
   private String credentialsFile;
+  private Synchronicity writeSyncFlag;
   private final Set<String> enhancerClassNames = new HashSet<>();
   private final Set<String> loggingEventEnhancerClassNames = new HashSet<>();
 
@@ -122,8 +125,9 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   /**
    * Sets the name of the monitored resource (Optional).
    *
-   * <p>Must be a <a href="https://cloud.google.com/logging/docs/api/v2/resource-list">supported</a>
-   * resource type. gae_app, gce_instance and container are auto-detected.
+   * <p>Must be a <a href=
+   * "https://cloud.google.com/logging/docs/api/v2/resource-list">supported</a> resource type.
+   * gae_app, gce_instance and container are auto-detected.
    *
    * <p>Defaults to "global"
    *
@@ -144,6 +148,20 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
     this.credentialsFile = credentialsFile;
   }
 
+  /**
+   * Define synchronization mode for writing log entries.
+   *
+   * @param log flag
+   */
+  public void setWriteSynchronicity(String flag) {
+    System.out.println("##### Captured writeSynchronicity config = " + flag);
+    try {
+      this.writeSyncFlag = Synchronicity.valueOf(flag);
+    } catch (IllegalArgumentException e) {
+      this.writeSyncFlag = Synchronicity.ASYNC; // use default value
+    }
+  }
+
   /** Add extra labels using classes that implement {@link LoggingEnhancer}. */
   public void addEnhancer(String enhancerClassName) {
     this.enhancerClassNames.add(enhancerClassName);
@@ -159,6 +177,12 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
 
   String getLogName() {
     return (log != null) ? log : "java.log";
+  }
+
+  public String getWriteSynchronicity() {
+    return (this.writeSyncFlag != null)
+        ? this.writeSyncFlag.toString()
+        : Synchronicity.ASYNC.toString();
   }
 
   MonitoredResource getMonitoredResource(String projectId) {
@@ -253,6 +277,8 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
       synchronized (this) {
         if (logging == null) {
           logging = getLoggingOptions().getService();
+          logging.setWriteSynchronicity(writeSyncFlag);
+          System.out.println("####### Setting write synchronicity for logging to " + writeSyncFlag);
         }
       }
     }
