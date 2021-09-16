@@ -64,7 +64,7 @@ import java.util.Set;
  *         &lt;!-- Optional: defaults to "ERROR" --&gt;
  *         &lt;flushLevel&gt;WARNING&lt;/flushLevel&gt;
  *
- *         &lt;!-- Optional: defaults to "ASYNC" --&gt;
+ *         &lt;!-- Optional: defaults to ASYNC --&gt;
  *         &lt;writeSynchronicity&gt;SYNC&lt;/writeSynchronicity&gt;
  *
  *         &lt;!-- Optional: auto detects on App Engine Flex, Standard, GCE and GKE, defaults to "global". See <a
@@ -154,14 +154,10 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   /**
    * Define synchronization mode for writing log entries.
    *
-   * @param log flag
+   * @param flag to set {@code Synchronicity} value.
    */
-  public void setWriteSynchronicity(String flag) {
-    try {
-      this.writeSyncFlag = Synchronicity.valueOf(flag);
-    } catch (IllegalArgumentException e) {
-      this.writeSyncFlag = Synchronicity.ASYNC; // use default value
-    }
+  public void setWriteSynchronicity(Synchronicity flag) {
+    this.writeSyncFlag = flag;
   }
 
   /** Add extra labels using classes that implement {@link LoggingEnhancer}. */
@@ -181,10 +177,8 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
     return (log != null) ? log : "java.log";
   }
 
-  public String getWriteSynchronicity() {
-    return (this.writeSyncFlag != null)
-        ? this.writeSyncFlag.toString()
-        : Synchronicity.ASYNC.toString();
+  public Synchronicity getWriteSynchronicity() {
+    return (this.writeSyncFlag != null) ? this.writeSyncFlag : Synchronicity.ASYNC;
   }
 
   MonitoredResource getMonitoredResource(String projectId) {
