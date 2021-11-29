@@ -305,7 +305,8 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
         } catch (IOException e) {
           throw new RuntimeException(
               String.format(
-                  "Could not read credentials file %s. Please verify that the file exists and is a valid Google credentials file.",
+                  "Could not read credentials file %s. Please verify that the file exists and is a"
+                      + " valid Google credentials file.",
                   credentialsFile),
               e);
         }
