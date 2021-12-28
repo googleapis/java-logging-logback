@@ -25,6 +25,7 @@ import ch.qos.logback.core.util.Loader;
 import com.google.api.core.InternalApi;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.MonitoredResource;
+import com.google.cloud.logging.LogDestinationName;
 import com.google.cloud.logging.LogEntry;
 import com.google.cloud.logging.Logging;
 import com.google.cloud.logging.Logging.WriteOption;
@@ -75,6 +76,9 @@ import java.util.Set;
  *         &lt;!-- Optional: defaults to the default credentials of the environment --&gt;
  *         &lt;credentialsFile&gt;/path/to/credentials/file&lt;/credentialsFile&gt;
  *
+ *         &lt;!-- Optional: adds resource name of the log for the log entry {@link LogDestinationName} --&gt;
+ *         &lt;logDestination&gt;com.google.cloud.logging.LogDestinationName&lt;/logDestination&gt;
+ *
  *         &lt;!-- Optional: add custom labels to log entries using {@link LoggingEnhancer} classes --&gt;
  *         &lt;enhancer&gt;com.example.enhancers.TestLoggingEnhancer&lt/enhancer&gt;
  *         &lt;enhancer&gt;com.example.enhancers.AnotherEnhancer&lt/enhancer&gt;
@@ -101,6 +105,7 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   private String log;
   private String resourceType;
   private String credentialsFile;
+  private LogDestinationName logDestination;
   private Synchronicity writeSyncFlag = Synchronicity.ASYNC;
   private final Set<String> enhancerClassNames = new HashSet<>();
   private final Set<String> loggingEventEnhancerClassNames = new HashSet<>();
@@ -152,6 +157,15 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   }
 
   /**
+   * Sets resource name of the log for the log entry {@link LogDestinationName}.
+   *
+   * @param logDestination The {@link LogDestinationName} to use.
+   */
+  public void setLogDestination(LogDestinationName logDestination) {
+    this.logDestination = logDestination;
+  }
+
+  /**
    * Define synchronization mode for writing log entries.
    *
    * @param flag to set {@code Synchronicity} value.
@@ -175,6 +189,10 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
 
   String getLogName() {
     return (log != null) ? log : "java.log";
+  }
+
+  LogDestinationName getLogDestination() {
+    return logDestination;
   }
 
   public Synchronicity getWriteSynchronicity() {
@@ -229,8 +247,14 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
       return;
     }
     MonitoredResource resource = getMonitoredResource(getProjectId());
-    defaultWriteOptions =
-        new WriteOption[] {WriteOption.logName(getLogName()), WriteOption.resource(resource)};
+    LogDestinationName logName = getLogDestination();
+    List<WriteOption> writeOptions = new ArrayList<>();
+    writeOptions.add(WriteOption.logName(getLogName()));
+    writeOptions.add(WriteOption.resource(resource));
+    if (logName != null) {
+      writeOptions.add(WriteOption.destination(logName));
+    }
+    defaultWriteOptions = writeOptions.toArray(new WriteOption[writeOptions.size()]);
     Level flushLevel = getFlushLevel();
     if (flushLevel != Level.OFF) {
       getLogging().setFlushSeverity(severityFor(flushLevel));
@@ -293,15 +317,14 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   /** Gets the {@link LoggingOptions} to use for this {@link LoggingAppender}. */
   protected LoggingOptions getLoggingOptions() {
     if (loggingOptions == null) {
-      if (Strings.isNullOrEmpty(credentialsFile)) {
-        loggingOptions = LoggingOptions.getDefaultInstance();
-      } else {
+      LoggingOptions.Builder builder = LoggingOptions.newBuilder();
+      if (logDestination != null && !Strings.isNullOrEmpty(projectId)) {
+        builder.setProjectId(logDestination);
+      }
+      if (!Strings.isNullOrEmpty(credentialsFile)) {
         try {
-          loggingOptions =
-              LoggingOptions.newBuilder()
-                  .setCredentials(
-                      GoogleCredentials.fromStream(new FileInputStream(credentialsFile)))
-                  .build();
+          builder.setCredentials(
+              GoogleCredentials.fromStream(new FileInputStream(credentialsFile)));
         } catch (IOException e) {
           throw new RuntimeException(
               String.format(
@@ -310,6 +333,7 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
               e);
         }
       }
+      loggingOptions = builder.build();
     }
     return loggingOptions;
   }
