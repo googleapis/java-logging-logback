@@ -38,6 +38,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -106,9 +107,9 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   private final Set<String> loggingEventEnhancerClassNames = new HashSet<>();
 
   /**
-   * Batched logging requests get immediately flushed for logs at or above this level.
+   * Sets a threshold for log severity level to flush all log entries that were batched so far.
    *
-   * <p>Defaults to Error if not set.
+   * <p>Defaults to Error.
    *
    * @param flushLevel Logback log level
    */
@@ -117,44 +118,48 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   }
 
   /**
-   * Sets the log filename.
+   * Sets the LOG_ID part of the <a href="log
+   * name">https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#FIELDS.log_name</a>
+   * for which the logs are ingested.
    *
-   * @param log filename
+   * @param log LOG_ID part of the name
    */
   public void setLog(String log) {
     this.log = log;
   }
 
   /**
-   * Sets the name of the monitored resource (Optional).
+   * Sets the name of the monitored resource (Optional). If not define the appender will try to
+   * identify the resource type automatically. Currently support resource types include "gae_app",
+   * "gce_instance", "k8s_container", "cloud_run_revision" and "cloud_function". If the appender
+   * fails to identify the resource type it will be set to "global".
    *
-   * <p>Must be a <a href=
-   * "https://cloud.google.com/logging/docs/api/v2/resource-list">supported</a> resource type.
-   * gae_app, gce_instance and container are auto-detected.
+   * <p>Must be a one of the <a href=
+   * "https://cloud.google.com/logging/docs/api/v2/resource-list">supported</a> resource types.
    *
-   * <p>Defaults to "global"
-   *
-   * @param resourceType name of the monitored resource
+   * @param resourceType the name of the monitored resource.
    */
   public void setResourceType(String resourceType) {
     this.resourceType = resourceType;
   }
 
   /**
-   * Sets the credentials file to use to create the {@link LoggingOptions}. The credentials returned
-   * by {@link GoogleCredentials#getApplicationDefault()} will be used if no custom credentials file
-   * has been set.
+   * Sets the path to the <a href="credential
+   * file">https://cloud.google.com/iam/docs/creating-managing-service-account-keys</a>. If not set
+   * the appender will use {@link GoogleCredentials#getApplicationDefault()} to authenticate.
    *
-   * @param credentialsFile The credentials file to use.
+   * @param credentialsFile the path to the credentials file.
    */
   public void setCredentialsFile(String credentialsFile) {
     this.credentialsFile = credentialsFile;
   }
 
   /**
-   * Define synchronization mode for writing log entries.
+   * Sets the log ingestion mode. It can be one of the {@link Synchronicity} values.
    *
-   * @param flag to set {@code Synchronicity} value.
+   * <p>Default to `Synchronicity.ASYNC`.
+   *
+   * @param flag the new ingestion mode.
    */
   public void setWriteSynchronicity(Synchronicity flag) {
     this.writeSyncFlag = flag;
@@ -169,57 +174,61 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
     this.loggingEventEnhancerClassNames.add(enhancerClassName);
   }
 
-  Level getFlushLevel() {
-    return (flushLevel != null) ? flushLevel : Level.ERROR;
-  }
-
-  String getLogName() {
-    return (log != null) ? log : "java.log";
-  }
-
+  /**
+   * Returns the current value of the ingestion mode.
+   *
+   * <p>The method is deprecated. Use appender configuration to setup the ingestion
+   *
+   * @return a {@link Synchronicity} value of the ingestion module.
+   */
+  @Deprecated
   public Synchronicity getWriteSynchronicity() {
     return (this.writeSyncFlag != null) ? this.writeSyncFlag : Synchronicity.ASYNC;
   }
 
-  MonitoredResource getMonitoredResource(String projectId) {
+  private Level getFlushLevel() {
+    return (flushLevel != null) ? flushLevel : Level.ERROR;
+  }
+
+  private String getLogName() {
+    return (log != null) ? log : "java.log";
+  }
+
+  private MonitoredResource getMonitoredResource(String projectId) {
     return MonitoredResourceUtil.getResource(projectId, resourceType);
   }
 
-  List<LoggingEnhancer> getLoggingEnhancers() {
-    return getEnhancers(enhancerClassNames);
+  private List<LoggingEnhancer> getLoggingEnhancers() {
+    return getEnhancers(enhancerClassNames, LoggingEnhancer.class);
   }
 
-  List<LoggingEventEnhancer> getLoggingEventEnhancers() {
+  private List<LoggingEventEnhancer> getLoggingEventEnhancers() {
     if (loggingEventEnhancerClassNames.isEmpty()) {
       return DEFAULT_LOGGING_EVENT_ENHANCERS;
     } else {
-      return getEnhancers(loggingEventEnhancerClassNames);
+      return getEnhancers(loggingEventEnhancerClassNames, LoggingEventEnhancer.class);
     }
   }
 
-  <T> List<T> getEnhancers(Set<String> classNames) {
-    List<T> loggingEnhancers = new ArrayList<>();
+  private <T> List<T> getEnhancers(Set<String> classNames, Class<T> classOfT) {
+    List<T> enhancers = new ArrayList<>();
     if (classNames != null) {
-      for (String enhancerClassName : classNames) {
-        if (enhancerClassName != null) {
-          T enhancer = getEnhancer(enhancerClassName);
-          if (enhancer != null) {
-            loggingEnhancers.add(enhancer);
+      for (String className : classNames) {
+        if (className != null) {
+          try {
+            T enhancer =
+                Loader.loadClass(className.trim())
+                    .asSubclass(classOfT)
+                    .getDeclaredConstructor()
+                    .newInstance();
+            enhancers.add(enhancer);
+          } catch (Exception ex) {
+            // invalid className: ignore
           }
         }
       }
     }
-    return loggingEnhancers;
-  }
-
-  private <T> T getEnhancer(String enhancerClassName) {
-    try {
-      Class<T> clz = (Class<T>) Loader.loadClass(enhancerClassName.trim());
-      return clz.getDeclaredConstructor().newInstance();
-    } catch (Exception ex) {
-      // If we cannot create the enhancer we fallback to null
-    }
-    return null;
+    return enhancers;
   }
 
   /** Initialize and configure the cloud logging service. */
@@ -228,6 +237,9 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
     if (isStarted()) {
       return;
     }
+
+    // create new Logging instance
+    //
     MonitoredResource resource = getMonitoredResource(getProjectId());
     defaultWriteOptions =
         new WriteOption[] {WriteOption.logName(getLogName()), WriteOption.resource(resource)};
@@ -328,7 +340,7 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
     }
     LogEntry.Builder builder =
         LogEntry.newBuilder(Payload.JsonPayload.of(jsonContent))
-            .setTimestamp(e.getTimeStamp())
+            .setTimestamp(Instant.ofEpochMilli(e.getTimeStamp()))
             .setSeverity(severity);
     builder
         .addLabel(LEVEL_NAME_KEY, level.toString())
