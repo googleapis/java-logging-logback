@@ -26,6 +26,7 @@ import com.google.api.core.InternalApi;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.MonitoredResource;
 import com.google.cloud.logging.LogDestinationName;
+import com.google.cloud.logging.LogDestinationName.DestinationType;
 import com.google.cloud.logging.LogEntry;
 import com.google.cloud.logging.Logging;
 import com.google.cloud.logging.Logging.WriteOption;
@@ -318,8 +319,9 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   protected LoggingOptions getLoggingOptions() {
     if (loggingOptions == null) {
       LoggingOptions.Builder builder = LoggingOptions.newBuilder();
-      if (logDestination != null && !Strings.isNullOrEmpty(projectId)) {
-        builder.setProjectId(logDestination);
+      if (logDestination != null
+          && logDestination.getDestinationType() == DestinationType.PROJECT) {
+        builder.setProjectId(logDestination.getDestinationId());
       }
       if (!Strings.isNullOrEmpty(credentialsFile)) {
         try {
