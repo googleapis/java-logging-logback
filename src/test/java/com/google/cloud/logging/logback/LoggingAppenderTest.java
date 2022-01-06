@@ -30,6 +30,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.LoggingEvent;
 import com.google.cloud.MonitoredResource;
 import com.google.cloud.Timestamp;
+import com.google.cloud.logging.LogDestinationName;
 import com.google.cloud.logging.LogEntry;
 import com.google.cloud.logging.Logging;
 import com.google.cloud.logging.Logging.WriteOption;
@@ -50,6 +51,10 @@ import org.slf4j.MDC;
 @RunWith(EasyMockRunner.class)
 public class LoggingAppenderTest {
   private final String projectId = "test-project";
+  private final String credentialFileProjectId = "project-12345";
+  private final String overridenProjectId = "some-project-id";
+  private final String dummyCredentialsFile =
+      "src/test/java/com/google/cloud/logging/logback/dummy-credentials.json";
   private Logging logging;
   private LoggingAppender loggingAppender;
 
@@ -271,6 +276,22 @@ public class LoggingAppenderTest {
       LoggingOptions options = appender.getLoggingOptions();
       assertThat(options).isEqualTo(defaultOptions);
     }
+  }
+
+  @Test
+  public void testCreateLoggingOptionsWithDestination() {
+    // Try to build LoggingOptions with default credentials.
+    LoggingAppender appender = new LoggingAppender();
+    appender.setCredentialsFile(dummyCredentialsFile);
+    assertThat(appender.getLoggingOptions().getProjectId()).isEqualTo(credentialFileProjectId);
+    appender = new LoggingAppender();
+    appender.setCredentialsFile(dummyCredentialsFile);
+    appender.setLogDestination(LogDestinationName.billingAccount("some-billing-id"));
+    assertThat(appender.getLoggingOptions().getProjectId()).isEqualTo(credentialFileProjectId);
+    appender = new LoggingAppender();
+    appender.setCredentialsFile(dummyCredentialsFile);
+    appender.setLogDestination(LogDestinationName.project(overridenProjectId));
+    assertThat(appender.getLoggingOptions().getProjectId()).isEqualTo(overridenProjectId);
   }
 
   private LoggingEvent createLoggingEvent(Level level, long timestamp) {
