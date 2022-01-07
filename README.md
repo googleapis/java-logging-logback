@@ -96,8 +96,8 @@ See [Logback filters](https://logback.qos.ch/manual/filters.html#thresholdFilter
     <!-- Optional: defaults to the default credentials of the environment -->
     <credentialsFile>/path/to/credentials/file</credentialsFile>
 
-    <!-- Optional: adds resource name of the log for the log entry -->
-    <logDestination>com.google.cloud.logging.LogDestinationName</logDestination>
+    <!-- Optional: adds project ID to be used for writing log entries -->
+    <projectId></projectId>
 
     <!-- Optional: add custom labels to log entries using LoggingEnhancer classes -->
     <enhancer>com.example.enhancers.TestLoggingEnhancer</enhancer>

@@ -26,7 +26,6 @@ import com.google.api.core.InternalApi;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.MonitoredResource;
 import com.google.cloud.logging.LogDestinationName;
-import com.google.cloud.logging.LogDestinationName.DestinationType;
 import com.google.cloud.logging.LogEntry;
 import com.google.cloud.logging.Logging;
 import com.google.cloud.logging.Logging.WriteOption;
@@ -106,7 +105,7 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   private String log;
   private String resourceType;
   private String credentialsFile;
-  private LogDestinationName logDestination;
+  private String projectId;
   private Synchronicity writeSyncFlag = Synchronicity.ASYNC;
   private final Set<String> enhancerClassNames = new HashSet<>();
   private final Set<String> loggingEventEnhancerClassNames = new HashSet<>();
@@ -158,12 +157,12 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   }
 
   /**
-   * Sets resource name of the log for the log entry {@link LogDestinationName}.
+   * Sets project ID to be used for writing log entries.
    *
-   * @param logDestination The {@link LogDestinationName} to use.
+   * @param projectId The project ID to be used to construct the resource name for log entries.
    */
-  public void setLogDestination(LogDestinationName logDestination) {
-    this.logDestination = logDestination;
+  public void setProjectId(String projectId) {
+    this.projectId = projectId;
   }
 
   /**
@@ -192,8 +191,8 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
     return (log != null) ? log : "java.log";
   }
 
-  LogDestinationName getLogDestination() {
-    return logDestination;
+  String getprojectId() {
+    return projectId;
   }
 
   public Synchronicity getWriteSynchronicity() {
@@ -248,12 +247,11 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
       return;
     }
     MonitoredResource resource = getMonitoredResource(getProjectId());
-    LogDestinationName logName = getLogDestination();
     List<WriteOption> writeOptions = new ArrayList<>();
     writeOptions.add(WriteOption.logName(getLogName()));
     writeOptions.add(WriteOption.resource(resource));
-    if (logName != null) {
-      writeOptions.add(WriteOption.destination(logName));
+    if (!Strings.isNullOrEmpty(projectId)) {
+      writeOptions.add(WriteOption.destination(LogDestinationName.project(projectId)));
     }
     defaultWriteOptions = writeOptions.toArray(new WriteOption[writeOptions.size()]);
     Level flushLevel = getFlushLevel();
@@ -319,10 +317,7 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   protected LoggingOptions getLoggingOptions() {
     if (loggingOptions == null) {
       LoggingOptions.Builder builder = LoggingOptions.newBuilder();
-      if (logDestination != null
-          && logDestination.getDestinationType() == DestinationType.PROJECT) {
-        builder.setProjectId(logDestination.getDestinationId());
-      }
+      builder.setProjectId(projectId);
       if (!Strings.isNullOrEmpty(credentialsFile)) {
         try {
           builder.setCredentials(
