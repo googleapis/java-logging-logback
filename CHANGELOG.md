@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.122.10](https://www.github.com/googleapis/java-logging-logback/compare/v0.122.9...v0.122.10) (2022-01-10)
+
+
+### Bug Fixes
+
+* **java:** run Maven in plain console-friendly mode ([#1301](https://www.github.com/googleapis/java-logging-logback/issues/1301)) ([#621](https://www.github.com/googleapis/java-logging-logback/issues/621)) ([e5de531](https://www.github.com/googleapis/java-logging-logback/commit/e5de531465015ae735e45ee5b6dc52bdd281ee6e))
+
 ### [0.122.9](https://www.github.com/googleapis/java-logging-logback/compare/v0.122.8...v0.122.9) (2022-01-10)
 
 
