@@ -37,6 +37,7 @@ import com.google.cloud.logging.LoggingOptions;
 import com.google.cloud.logging.Payload.JsonPayload;
 import com.google.cloud.logging.Severity;
 import com.google.common.collect.ImmutableMap;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import org.easymock.Capture;
@@ -88,7 +89,7 @@ public class LoggingAppenderTest {
     JsonPayload payload = JsonPayload.of(jsonContent);
     LogEntry logEntry =
         LogEntry.newBuilder(payload)
-            .setTimestamp(100000L)
+            .setTimestamp(Instant.ofEpochMilli(100000L))
             .setSeverity(Severity.WARNING)
             .setLabels(
                 new ImmutableMap.Builder<String, String>()
@@ -130,7 +131,7 @@ public class LoggingAppenderTest {
     JsonPayload payload = JsonPayload.of(jsonContent);
     LogEntry logEntry =
         LogEntry.newBuilder(payload)
-            .setTimestamp(100000L)
+            .setTimestamp(Instant.ofEpochMilli(100000L))
             .setSeverity(Severity.ERROR)
             .setLabels(
                 new ImmutableMap.Builder<String, String>()
@@ -168,7 +169,7 @@ public class LoggingAppenderTest {
     JsonPayload payload = JsonPayload.of(jsonContent);
     LogEntry logEntry =
         LogEntry.newBuilder(payload)
-            .setTimestamp(100000L)
+            .setTimestamp(Instant.ofEpochMilli(100000L))
             .setSeverity(Severity.WARNING)
             .setLabels(
                 new ImmutableMap.Builder<String, String>()
@@ -200,7 +201,8 @@ public class LoggingAppenderTest {
     logging.setFlushSeverity(Severity.ERROR);
     Capture<WriteOption> logNameArg = Capture.newInstance();
     Capture<WriteOption> resourceArg = Capture.newInstance();
-    logging.write((Iterable<LogEntry>) anyObject(), capture(logNameArg), capture(resourceArg));
+    logging.write(
+        EasyMock.<Iterable<LogEntry>>anyObject(), capture(logNameArg), capture(resourceArg));
     expectLastCall().once();
     replay(logging);
     loggingAppender.start();
@@ -220,7 +222,7 @@ public class LoggingAppenderTest {
     JsonPayload payload = JsonPayload.of(jsonContent);
     LogEntry logEntry =
         LogEntry.newBuilder(payload)
-            .setTimestamp(100000L)
+            .setTimestamp(Instant.ofEpochMilli(100000L))
             .setSeverity(Severity.INFO)
             .setLabels(
                 new ImmutableMap.Builder<String, String>()
