@@ -250,14 +250,6 @@ public class LoggingAppenderTest {
     appender.getLoggingOptions();
   }
 
-  @Test
-  public void testCreateWithDefaultLoggingOptions() {
-    LoggingOptions defaultOptions = LoggingOptions.getDefaultInstance();
-    LoggingAppender appender = new LoggingAppender();
-    LoggingOptions options = appender.getLoggingOptions();
-    assertThat(options).isEqualTo(defaultOptions);
-  }
-
   private LoggingEvent createLoggingEvent(Level level, long timestamp) {
     LoggingEvent loggingEvent = new LoggingEvent();
     loggingEvent.setMessage("this is a test");
