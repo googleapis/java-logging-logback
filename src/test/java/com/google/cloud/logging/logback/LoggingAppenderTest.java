@@ -278,14 +278,19 @@ public class LoggingAppenderTest {
   }
 
   @Test
-  public void testCreateLoggingOptionsWithDestination() {
-    // Try to build LoggingOptions with default credentials.
+  public void testCreateLoggingOptionsWithCredentials() {
+    // Try to build LoggingOptions with file based credentials.
     LoggingAppender appender = new LoggingAppender();
     appender.setCredentialsFile(dummyCredentialsFile);
     assertThat(appender.getLoggingOptions().getProjectId()).isEqualTo(credentialFileProjectId);
-    appender = new LoggingAppender();
+  }
+
+  @Test
+  public void testCreateLoggingOptionsWithDestination() {
+    // Try to build LoggingOptions with file based credentials.
+    LoggingAppender appender = new LoggingAppender();
     appender.setCredentialsFile(dummyCredentialsFile);
-    appender.setProjectId(overridenProjectId);
+    appender.setLogDestinationProjectId(overridenProjectId);
     assertThat(appender.getLoggingOptions().getProjectId()).isEqualTo(overridenProjectId);
   }
 

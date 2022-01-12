@@ -105,7 +105,7 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   private String log;
   private String resourceType;
   private String credentialsFile;
-  private String projectId;
+  private String logDestinationProjectId;
   private Synchronicity writeSyncFlag = Synchronicity.ASYNC;
   private final Set<String> enhancerClassNames = new HashSet<>();
   private final Set<String> loggingEventEnhancerClassNames = new HashSet<>();
@@ -157,12 +157,13 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   }
 
   /**
-   * Sets project ID to be used for writing log entries.
+   * Sets project ID to be used to customize log destination name for written log entries.
    *
-   * @param projectId The project ID to be used to construct the resource name for log entries.
+   * @param projectId The project ID to be used to construct the resource destination name for log
+   *     entries.
    */
-  public void setProjectId(String projectId) {
-    this.projectId = projectId;
+  public void setLogDestinationProjectId(String projectId) {
+    this.logDestinationProjectId = projectId;
   }
 
   /**
@@ -189,10 +190,6 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
 
   String getLogName() {
     return (log != null) ? log : "java.log";
-  }
-
-  String getprojectId() {
-    return projectId;
   }
 
   public Synchronicity getWriteSynchronicity() {
@@ -246,7 +243,8 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
     if (isStarted()) {
       return;
     }
-    MonitoredResource resource = getMonitoredResource(getProjectId());
+    String projectId = getProjectId();
+    MonitoredResource resource = getMonitoredResource(projectId);
     List<WriteOption> writeOptions = new ArrayList<>();
     writeOptions.add(WriteOption.logName(getLogName()));
     writeOptions.add(WriteOption.resource(resource));
@@ -317,7 +315,7 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   protected LoggingOptions getLoggingOptions() {
     if (loggingOptions == null) {
       LoggingOptions.Builder builder = LoggingOptions.newBuilder();
-      builder.setProjectId(projectId);
+      builder.setProjectId(logDestinationProjectId);
       if (!Strings.isNullOrEmpty(credentialsFile)) {
         try {
           builder.setCredentials(
