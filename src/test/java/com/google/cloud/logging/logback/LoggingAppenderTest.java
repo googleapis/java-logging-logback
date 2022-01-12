@@ -34,7 +34,6 @@ import com.google.cloud.logging.LogEntry;
 import com.google.cloud.logging.Logging;
 import com.google.cloud.logging.Logging.WriteOption;
 import com.google.cloud.logging.LoggingEnhancer;
-import com.google.cloud.logging.LoggingOptions;
 import com.google.cloud.logging.Payload;
 import com.google.cloud.logging.Severity;
 import com.google.common.collect.ImmutableList;
