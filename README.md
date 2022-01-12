@@ -22,20 +22,20 @@ If you are using Maven, add this to your pom.xml file:
 <dependency>
   <groupId>com.google.cloud</groupId>
   <artifactId>google-cloud-logging-logback</artifactId>
-  <version>0.122.6-alpha</version>
+  <version>0.122.9-alpha</version>
 </dependency>
 ```
 
 If you are using Gradle without BOM, add this to your dependencies
 
 ```Groovy
-implementation 'com.google.cloud:google-cloud-logging-logback:0.122.6-alpha'
+implementation 'com.google.cloud:google-cloud-logging-logback:0.122.9-alpha'
 ```
 
 If you are using SBT, add this to your dependencies
 
 ```Scala
-libraryDependencies += "com.google.cloud" % "google-cloud-logging-logback" % "0.122.6-alpha"
+libraryDependencies += "com.google.cloud" % "google-cloud-logging-logback" % "0.122.9-alpha"
 ```
 
 ## Authentication
@@ -95,9 +95,6 @@ See [Logback filters](https://logback.qos.ch/manual/filters.html#thresholdFilter
 
     <!-- Optional: defaults to the default credentials of the environment -->
     <credentialsFile>/path/to/credentials/file</credentialsFile>
-
-    <!-- Optional: defaults to the project id obtained during authentication process. Project id is also used to construct resource name of the log entries -->
-    <logDestinationProjectId>String</logDestinationProjectId>
 
     <!-- Optional: add custom labels to log entries using LoggingEnhancer classes -->
     <enhancer>com.example.enhancers.TestLoggingEnhancer</enhancer>
