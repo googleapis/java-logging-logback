@@ -192,6 +192,10 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
     return (log != null) ? log : "java.log";
   }
 
+  String getLogDestinationProjectId() {
+    return this.logDestinationProjectId;
+  }
+
   public Synchronicity getWriteSynchronicity() {
     return (this.writeSyncFlag != null) ? this.writeSyncFlag : Synchronicity.ASYNC;
   }
@@ -243,13 +247,13 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
     if (isStarted()) {
       return;
     }
-    String projectId = getProjectId();
-    MonitoredResource resource = getMonitoredResource(projectId);
+    MonitoredResource resource = getMonitoredResource(getProjectId());
     List<WriteOption> writeOptions = new ArrayList<>();
     writeOptions.add(WriteOption.logName(getLogName()));
     writeOptions.add(WriteOption.resource(resource));
-    if (!Strings.isNullOrEmpty(projectId)) {
-      writeOptions.add(WriteOption.destination(LogDestinationName.project(projectId)));
+    if (!Strings.isNullOrEmpty(getLogDestinationProjectId())) {
+      writeOptions.add(
+          WriteOption.destination(LogDestinationName.project(getLogDestinationProjectId())));
     }
     defaultWriteOptions = writeOptions.toArray(new WriteOption[writeOptions.size()]);
     Level flushLevel = getFlushLevel();
@@ -315,7 +319,7 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   protected LoggingOptions getLoggingOptions() {
     if (loggingOptions == null) {
       LoggingOptions.Builder builder = LoggingOptions.newBuilder();
-      builder.setProjectId(logDestinationProjectId);
+      builder.setProjectId(getLogDestinationProjectId());
       if (!Strings.isNullOrEmpty(credentialsFile)) {
         try {
           builder.setCredentials(
