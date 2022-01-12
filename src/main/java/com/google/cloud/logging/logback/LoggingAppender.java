@@ -76,8 +76,8 @@ import java.util.Set;
  *         &lt;!-- Optional: defaults to the default credentials of the environment --&gt;
  *         &lt;credentialsFile&gt;/path/to/credentials/file&lt;/credentialsFile&gt;
  *
- *         &lt;!-- Optional: adds resource name of the log for the log entry {@link LogDestinationName} --&gt;
- *         &lt;logDestination&gt;com.google.cloud.logging.LogDestinationName&lt;/logDestination&gt;
+ *         &lt;!-- Optional: defaults to the project id obtained during authentication process. Project id is also used to construct resource name of the log entries --&gt;
+ *         &lt;logDestination&gt;String&lt;/logDestination&gt;
  *
  *         &lt;!-- Optional: add custom labels to log entries using {@link LoggingEnhancer} classes --&gt;
  *         &lt;enhancer&gt;com.example.enhancers.TestLoggingEnhancer&lt/enhancer&gt;
