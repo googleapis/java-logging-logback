@@ -25,7 +25,6 @@ import ch.qos.logback.core.util.Loader;
 import com.google.api.core.InternalApi;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.MonitoredResource;
-import com.google.cloud.logging.LogDestinationName;
 import com.google.cloud.logging.LogEntry;
 import com.google.cloud.logging.Logging;
 import com.google.cloud.logging.Logging.WriteOption;
@@ -192,10 +191,6 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
     return (log != null) ? log : "java.log";
   }
 
-  String getLogDestinationProjectId() {
-    return this.logDestinationProjectId;
-  }
-
   public Synchronicity getWriteSynchronicity() {
     return (this.writeSyncFlag != null) ? this.writeSyncFlag : Synchronicity.ASYNC;
   }
@@ -248,14 +243,8 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
       return;
     }
     MonitoredResource resource = getMonitoredResource(getProjectId());
-    List<WriteOption> writeOptions = new ArrayList<>();
-    writeOptions.add(WriteOption.logName(getLogName()));
-    writeOptions.add(WriteOption.resource(resource));
-    if (!Strings.isNullOrEmpty(getLogDestinationProjectId())) {
-      writeOptions.add(
-          WriteOption.destination(LogDestinationName.project(getLogDestinationProjectId())));
-    }
-    defaultWriteOptions = writeOptions.toArray(new WriteOption[writeOptions.size()]);
+    defaultWriteOptions =
+        new WriteOption[] {WriteOption.logName(getLogName()), WriteOption.resource(resource)};
     Level flushLevel = getFlushLevel();
     if (flushLevel != Level.OFF) {
       getLogging().setFlushSeverity(severityFor(flushLevel));
@@ -319,7 +308,7 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   protected LoggingOptions getLoggingOptions() {
     if (loggingOptions == null) {
       LoggingOptions.Builder builder = LoggingOptions.newBuilder();
-      builder.setProjectId(getLogDestinationProjectId());
+      builder.setProjectId(logDestinationProjectId);
       if (!Strings.isNullOrEmpty(credentialsFile)) {
         try {
           builder.setCredentials(
