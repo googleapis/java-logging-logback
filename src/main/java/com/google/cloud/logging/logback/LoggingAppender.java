@@ -219,10 +219,8 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   }
 
   private void setupMonitoredResource() {
-    if (autoPopulateMetadata) {
+    if (monitoredResource == null && autoPopulateMetadata) {
       monitoredResource = MonitoredResourceUtil.getResource(getProjectId(), resourceType);
-    } else {
-      monitoredResource = null;
     }
   }
 
