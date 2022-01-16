@@ -371,7 +371,7 @@ public class LoggingAppenderTest {
     expectLastCall().once();
     replay(logging);
 
-    loggingAppender.setMonitoredResource(DEFAULT_RESOURCE);
+    loggingAppender.setupMonitoredResource(DEFAULT_RESOURCE);
     loggingAppender.setAutoPopulateMetadata(true);
     loggingAppender.start();
     Timestamp timestamp = Timestamp.ofTimeSecondsAndNanos(100000, 0);
@@ -402,7 +402,7 @@ public class LoggingAppenderTest {
     ByteArrayOutputStream bout = new ByteArrayOutputStream();
     PrintStream out = new PrintStream(bout);
     System.setOut(out);
-    loggingAppender.setMonitoredResource(DEFAULT_RESOURCE);
+    loggingAppender.setupMonitoredResource(DEFAULT_RESOURCE);
     loggingAppender.setAutoPopulateMetadata(true);
     loggingAppender.setRedirectToStdout(true);
     loggingAppender.start();

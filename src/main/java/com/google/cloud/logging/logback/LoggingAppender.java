@@ -218,8 +218,16 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
     return (this.writeSyncFlag != null) ? this.writeSyncFlag : Synchronicity.ASYNC;
   }
 
+  private void setupMonitoredResource() {
+    if (autoPopulateMetadata) {
+      monitoredResource = MonitoredResourceUtil.getResource(getProjectId(), resourceType);
+    } else {
+      monitoredResource = null;
+    }
+  }
+
   @InternalApi("Visible for testing")
-  void setMonitoredResource(MonitoredResource monitoredResource) {
+  void setupMonitoredResource(MonitoredResource monitoredResource) {
     this.monitoredResource = monitoredResource;
   }
 
@@ -229,10 +237,6 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
 
   private String getLogName() {
     return (log != null) ? log : "java.log";
-  }
-
-  private MonitoredResource getMonitoredResource(String projectId) {
-    return MonitoredResourceUtil.getResource(projectId, resourceType);
   }
 
   private List<LoggingEnhancer> getLoggingEnhancers() {
@@ -275,13 +279,8 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
       return;
     }
 
-    // create new Logging instance
-    //
-    if (autoPopulateMetadata) {
-      monitoredResource = getMonitoredResource(getProjectId());
-    } else {
-      monitoredResource = null;
-    }
+    setupMonitoredResource();
+
     defaultWriteOptions =
         new WriteOption[] {
           WriteOption.logName(getLogName()), WriteOption.resource(monitoredResource)
