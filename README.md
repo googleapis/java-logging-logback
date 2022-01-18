@@ -8,6 +8,9 @@ Java idiomatic client for [Cloud Logging Logback Appender][product-docs].
 - [Product Documentation][product-docs]
 - [Client Library Documentation][javadocs]
 
+> Note: This client is a work-in-progress, and may occasionally
+> make backwards-incompatible changes.
+
 
 ## Quickstart
 
@@ -230,6 +233,9 @@ and on [google-cloud-java][g-c-j].
 
 This library follows [Semantic Versioning](http://semver.org/).
 
+
+It is currently in major version zero (``0.y.z``), which means that anything may change at any time
+and the public API should not be considered stable.
 
 
 ## Contributing
