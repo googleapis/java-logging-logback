@@ -13,7 +13,3 @@
 # limitations under the License.
 requestsize:
   enabled: true
-staleness:
-  pullrequest: true
-  old: 30
-  extraold: 60
