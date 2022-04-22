@@ -25,7 +25,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TraceLoggingEventEnhancerTest {
+public class ITTraceLoggingEventEnhancerTest {
   private TraceLoggingEventEnhancer classUnderTest;
 
   @Before

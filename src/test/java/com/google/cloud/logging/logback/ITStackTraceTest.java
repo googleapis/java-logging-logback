@@ -21,7 +21,7 @@ import static com.google.common.truth.Truth.assertThat;
 import ch.qos.logback.classic.spi.ThrowableProxy;
 import org.junit.Test;
 
-public class StackTraceTest {
+public class ITStackTraceTest {
   @Test
   public void testStack() {
     Exception ex = new UnsupportedOperationException("foo");

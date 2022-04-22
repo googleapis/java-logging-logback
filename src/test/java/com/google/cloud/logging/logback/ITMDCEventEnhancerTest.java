@@ -25,7 +25,7 @@ import java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
 
-public class MDCEventEnhancerTest {
+public class ITMDCEventEnhancerTest {
   private MDCEventEnhancer classUnderTest;
 
   @Before
