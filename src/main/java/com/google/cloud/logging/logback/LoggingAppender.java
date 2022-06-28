@@ -41,7 +41,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -321,17 +320,16 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
 
   @Override
   protected void append(ILoggingEvent e) {
-    Iterable<LogEntry> entries = Collections.singleton(logEntryFor(e));
+    List<LogEntry> entriesList = new ArrayList<LogEntry>();
+    entriesList.add(logEntryFor(e));
     // Check if instrumentation was already added - if not, create a log entry with instrumentation
     // data
     if (!setInstrumentationStatus(true)) {
-      List<LogEntry> result = new ArrayList<LogEntry>();
-      entries.forEach(result::add);
-      result.add(
+      entriesList.add(
           Instrumentation.createDiagnosticEntry(
               JAVA_LOGBACK_LIBRARY_NAME, Instrumentation.getLibraryVersion(LoggingAppender.class)));
-      entries = result;
     }
+    Iterable<LogEntry> entries = entriesList;
     if (autoPopulateMetadata) {
       entries =
           getLogging()
