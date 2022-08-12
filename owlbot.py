@@ -14,7 +14,9 @@
 
 """This script is used to synthesize generated parts of this library."""
 
+import os
 import synthtool.languages.java as java
+import synthtool as s
 
 java.common_templates(excludes=[
     '.gitignore',
