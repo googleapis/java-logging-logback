@@ -104,6 +104,9 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   private static final List<LoggingEventEnhancer> DEFAULT_LOGGING_EVENT_ENHANCERS =
       ImmutableList.<LoggingEventEnhancer>of(new MDCEventEnhancer());
   public static final String JAVA_LOGBACK_LIBRARY_NAME = "java-logback";
+  // Using release-please annotations to update DEFAULT_INSTRUMENTATION_VERSION with latest version.
+  // See
+  // https://github.com/googleapis/release-please/blob/main/docs/customizing.md#updating-arbitrary-files
   // {x-version-update-start:google-cloud-logging-logback:current}
   public static final String DEFAULT_INSTRUMENTATION_VERSION = "1.0.0";
   // {x-version-update-end}
