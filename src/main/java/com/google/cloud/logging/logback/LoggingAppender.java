@@ -248,8 +248,7 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   /**
    * Returns the current value of the ingestion mode.
    *
-   * <p>The method is deprecated.
-   * Use appender configuration to set up the ingestion
+   * <p>The method is deprecated. Use appender configuration to set up the ingestion
    *
    * @return a {@link Synchronicity} value of the ingestion module.
    */
