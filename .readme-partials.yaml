@@ -57,8 +57,7 @@ custom_content: |
         <maxOutstandingElementCount>10000</maxOutstandingElementCount>
         <maxOutstandingRequestBytes>100000</maxOutstandingRequestBytes>
         <limitExceededBehavior>Ignore</limitExceededBehavior>
-      </logbackBatchingSettings>
-  </appender>    
+      </logbackBatchingSettings> 
     </appender>
 
     <root level="info">
