@@ -128,8 +128,7 @@ See [Logback filters](https://logback.qos.ch/manual/filters.html#thresholdFilter
       <maxOutstandingElementCount>10000</maxOutstandingElementCount>
       <maxOutstandingRequestBytes>100000</maxOutstandingRequestBytes>
       <limitExceededBehavior>Ignore</limitExceededBehavior>
-    </logbackBatchingSettings>
-</appender>    
+    </logbackBatchingSettings> 
   </appender>
 
   <root level="info">
