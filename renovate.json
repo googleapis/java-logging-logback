@@ -68,13 +68,6 @@
         "^com.fasterxml.jackson.core"
       ],
       "groupName": "jackson dependencies"
-    },
-    {
-      "packagePatterns": [
-        "^com.google.cloud:google-cloud-shared-dependencies",
-        "^com.google.cloud:google-cloud-logging"
-      ],
-      "groupName": "shared dependencies"
     }
   ],
   "semanticCommits": true,
