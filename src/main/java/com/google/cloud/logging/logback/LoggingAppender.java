@@ -159,8 +159,9 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   }
 
   /**
-   * Sets the LOG_ID part of the <a href="https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#FIELDS.log_name">log name</a>
-   * for which the logs are ingested.
+   * Sets the LOG_ID part of the <a
+   * href="https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#FIELDS.log_name">log
+   * name</a> for which the logs are ingested.
    *
    * @param log LOG_ID part of the name
    */
@@ -184,8 +185,10 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   }
 
   /**
-   * Sets the path to the <a href="https://cloud.google.com/iam/docs/creating-managing-service-account-keys">credential file</a>. If not set
-   * the appender will use {@link GoogleCredentials#getApplicationDefault()} to authenticate.
+   * Sets the path to the <a
+   * href="https://cloud.google.com/iam/docs/creating-managing-service-account-keys">credential
+   * file</a>. If not set the appender will use {@link GoogleCredentials#getApplicationDefault()} to
+   * authenticate.
    *
    * @param credentialsFile the path to the credentials file.
    */
