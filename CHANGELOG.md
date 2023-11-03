@@ -1,6 +1,53 @@
 # Changelog
 
 
+## [0.130.25-alpha](https://github.com/googleapis/java-logging-logback/compare/v0.130.24-alpha...v0.130.25-alpha) (2023-10-26)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-logging to v3.15.12 ([#1194](https://github.com/googleapis/java-logging-logback/issues/1194)) ([146ebf3](https://github.com/googleapis/java-logging-logback/commit/146ebf3e2b192f434d46cee8404e54848761d46a))
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.18.0 ([#1192](https://github.com/googleapis/java-logging-logback/issues/1192)) ([f2b8d9c](https://github.com/googleapis/java-logging-logback/commit/f2b8d9cd8666004b3329abcbe322a15927ea1abd))
+
+## [0.130.24-alpha](https://github.com/googleapis/java-logging-logback/compare/v0.130.23-alpha...v0.130.24-alpha) (2023-10-11)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-logging to v3.15.11 ([#1184](https://github.com/googleapis/java-logging-logback/issues/1184)) ([02501e4](https://github.com/googleapis/java-logging-logback/commit/02501e4f1c0eacb42dedb8d80e2fa3a2d4444ff4))
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.17.0 ([#1182](https://github.com/googleapis/java-logging-logback/issues/1182)) ([86d4702](https://github.com/googleapis/java-logging-logback/commit/86d470271639d8151fe94734f2f9da76c8ef0392))
+
+## [0.130.23-alpha](https://github.com/googleapis/java-logging-logback/compare/v0.130.22-alpha...v0.130.23-alpha) (2023-09-28)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-logging to v3.15.10 ([#1175](https://github.com/googleapis/java-logging-logback/issues/1175)) ([e7a3d1f](https://github.com/googleapis/java-logging-logback/commit/e7a3d1f4df3101193095ff384a1dcdd74fba9edd))
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.16.1 ([#1173](https://github.com/googleapis/java-logging-logback/issues/1173)) ([3939e2f](https://github.com/googleapis/java-logging-logback/commit/3939e2fd01b054beac52ec2a95745cf855ac5ae1))
+
+## [0.130.22-alpha](https://github.com/googleapis/java-logging-logback/compare/v0.130.21-alpha...v0.130.22-alpha) (2023-09-12)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-logging to v3.15.9 ([#1166](https://github.com/googleapis/java-logging-logback/issues/1166)) ([5b48e2b](https://github.com/googleapis/java-logging-logback/commit/5b48e2be9b92ff51b740a44fcea9e0d794401960))
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.15.0 ([#1165](https://github.com/googleapis/java-logging-logback/issues/1165)) ([ab8b736](https://github.com/googleapis/java-logging-logback/commit/ab8b7363a7d29d3e6771f18d2d5bf2e0f9723b00))
+* Update dependency org.easymock:easymock to v5.2.0 ([#1162](https://github.com/googleapis/java-logging-logback/issues/1162)) ([e64887e](https://github.com/googleapis/java-logging-logback/commit/e64887eb9cb5adecdaab79ebf0b1fde8c7d3fe1d))
+
+## [0.130.21-alpha](https://github.com/googleapis/java-logging-logback/compare/v0.130.20-alpha...v0.130.21-alpha) (2023-08-08)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-logging to v3.15.8 ([#1155](https://github.com/googleapis/java-logging-logback/issues/1155)) ([0ea1209](https://github.com/googleapis/java-logging-logback/commit/0ea1209ace869a6bfd1f8dfa177cbd40c1385e66))
+
+## [0.130.20-alpha](https://github.com/googleapis/java-logging-logback/compare/v0.130.19-alpha...v0.130.20-alpha) (2023-08-08)
+
+
+### Dependencies
+
+* Update dependency com.google.cloud:google-cloud-shared-dependencies to v3.14.0 ([#1148](https://github.com/googleapis/java-logging-logback/issues/1148)) ([a51611f](https://github.com/googleapis/java-logging-logback/commit/a51611ff8da09470e7cc013482dcda14b10580d4))
+
 ## [0.130.19-alpha](https://github.com/googleapis/java-logging-logback/compare/v0.130.18-alpha...v0.130.19-alpha) (2023-07-25)
 
 
