@@ -28,7 +28,7 @@
     <dependency>
       <groupId>com.google.cloud</groupId>
       <artifactId>google-cloud-logging-logback</artifactId>
-      <version>0.130.28-alpha</version>
+      <version>0.130.29-alpha-SNAPSHOT</version>
     </dependency>
     <!-- {x-version-update-end} -->
 
@@ -41,7 +41,7 @@
     <dependency>
       <groupId>com.google.truth</groupId>
       <artifactId>truth</artifactId>
-      <version>1.1.5</version>
+      <version>1.2.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
