@@ -225,4 +225,12 @@
       </plugin>
     </plugins>
   </build>
+      <profiles>
+    <profile>
+      <id>native</id>
+      <properties>
+        <test>!LoggingAppenderTest</test>
+      </properties>
+    </profile>
+  </profiles>
 </project>
