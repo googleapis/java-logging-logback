@@ -229,6 +229,7 @@
     <profile>
       <id>native</id>
       <properties>
+      <!-- Skip native image tests that use mocking libs to avoid loading classes at runtime. -->
         <test>!LoggingAppenderTest</test>
       </properties>
     </profile>
