@@ -1,0 +1,30 @@
+gapic_generator_version: 2.40.1
+protoc_version: '25.2'
+googleapis_commitish: 6f289d775912966eb0cf04bda91e5e355c998d30
+libraries_bom_version: 26.38.0
+template_excludes:
+  - '.gitignore'
+  - '.github/CODEOWNERS'
+  - '.github/blunderbuss.yml'
+  - 'CONTRIBUTING.md'
+  - '.github/auto-label.yaml'
+  - '.github/release-please.yml
+  - '.kokoro/requirements.in'
+  - '.kokoro/requirements.txt'
+  - '.kokoro/presubmit/graalvm-native.cfg'
+  - '.kokoro/presubmit/graalvm-native-17.cfg'
+libraries:
+  - api_shortname: "logging-logback"
+    name_pretty: "Cloud Logging Logback Appender"
+    product_documentation: "https://cloud.google.com/logging/docs/setup/java#logback_appender_for"
+    client_documentation: "https://cloud.google.com/java/docs/reference/google-cloud-logging-logback/latest/history"
+    issue_tracker: "https://issuetracker.google.com/savedsearches/559764"
+    release_level: "preview"
+    language: "java"
+    repo: "googleapis/java-logging-logback"
+    repo_short: "java-logging-logback"
+    distribution_name: "com.google.cloud:google-cloud-logging-logback"
+    codeowner_team: "@googleapis/yoshi-java @googleapis/api-logging @googleapis/api-logging-partners"
+    library_type: "OTHER"
+    api_id: "logging.googleapis.com"
+    GAPICs:
