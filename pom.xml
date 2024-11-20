@@ -229,13 +229,24 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>flatten-maven-plugin</artifactId>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <configuration>
+          <ignoredDependencies>
+            <!--We ignore threeten because its usage has been migrated to java.time and there are no public methods-->
+            <!--exposing this class-->
+            <ignoredDependency>org.threeten:threetenbp</ignoredDependency>
+          </ignoredDependencies>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
-      <profiles>
+  <profiles>
     <profile>
       <id>native</id>
       <properties>
-      <!-- Skip native image tests that use mocking libs to avoid loading classes at runtime. -->
+        <!-- Skip native image tests that use mocking libs to avoid loading classes at runtime. -->
         <test>!LoggingAppenderTest</test>
       </properties>
     </profile>
