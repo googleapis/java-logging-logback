@@ -194,6 +194,13 @@ public class LoggingAppenderTest {
   }
 
   @Test
+  public void testDefaultFlushLevelOff() {
+    loggingAppender.start();
+    Severity foundSeverity = logging.getFlushSeverity();
+    assertThat(foundSeverity).isEqualTo(null);
+  }
+
+  @Test
   public void testFilterLogsOnlyLogsAtOrAboveLogLevel() {
     logging.setFlushSeverity(Severity.ERROR);
     Capture<Iterable<LogEntry>> capturedArgument = Capture.newInstance();
