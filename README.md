@@ -161,14 +161,14 @@ public class TestLogger {
 
 ### Controlling the batching settings
 When using asynchronous logging, the Logging API is called asynchronously.  This allows the appender 
-to combine multiple write() calls into a single, more efficient request to the Logging API. The 
-`logbackBatchingSettings` in the `logback.xml`  configures the batching behavior:
+to combine multiple `write()` calls into a single, more efficient request to the Logging API. The 
+`logbackBatchingSettings` in the `logback.xml` file configures the batching behavior:
 
 ```
    <logbackBatchingSettings>
      <elementCountThreshold>100</elementCountThreshold> <!-- Send a writeLogEntries request once the number of log entries in a batch is over 100 -->
-     <requestByteThreshold>1000</requestByteThreshold> <!-- Send a writeLogEntries request once the size of log entries in a batch are over 1000 bytes -->
-     <delayThreshold>500</delayThreshold> <!-- Send a writeLogEntries request once the 500 ms has passed since the first log entry created the batch -->
+     <requestByteThreshold>1000</requestByteThreshold> <!-- Send a writeLogEntries request once the total size of log entries in a batch is over 1000 bytes -->
+     <delayThreshold>500</delayThreshold> <!-- Send a writeLogEntries request once the 500 ms duration has passed since the first log entry created the batch -->
      <maxOutstandingElementCount>10000</maxOutstandingElementCount>
      <maxOutstandingRequestBytes>100000</maxOutstandingRequestBytes>
      <limitExceededBehavior>Ignore</limitExceededBehavior>
@@ -187,7 +187,7 @@ flow control behavior:
 * `maxOutstandingRequestBytes`: When the total size of outstanding `writeLogEntries` requests exceeds this threshold, flow control will be initiated.
 * `limitExceededBehavior`: This value defines what action the appender should take when the configured limits (like `maxOutstandingRequestBytes` or `maxOutstandingElementCount`) are exceeded.
 
-For more about batching configurations, see [BatchingSettings](https://cloud.google.com/java/docs/reference/gax/latest/com.google.api.gax.batching.BatchingSettings).
+For more information about batching configurations, see [BatchingSettings](https://cloud.google.com/java/docs/reference/gax/latest/com.google.api.gax.batching.BatchingSettings).
 
 ### Populate log entries with metadata
 
