@@ -89,7 +89,7 @@ See [Logback filters](https://logback.qos.ch/manual/filters.html#thresholdFilter
     <!-- Optional: defaults to "java.log" -->
     <log>application.log</log>
 
-    <!-- Optional: defaults to "ERROR" -->
+    <!-- Optional: defaults to "OFF" -->
     <flushLevel>WARN</flushLevel>
 
     <!-- Optional: defaults to ASYNC -->
@@ -216,7 +216,11 @@ Note that using the structured logging Json format you cannot control the log na
 The logs will be ingested into the project that hosts the environment where your application is running.
 The configuration `logDestinationProjectId` will be ignored.
 
-
+### Recommended way to ingest logs in Google Cloud managed environments
+If your application is running on Google Cloud Environments such as Google Kubernetes Engine, App Engine flexible environment, and Cloud Run functions, it is recommended to use [logging agent](https://cloud.google.com/logging/docs/agent)
+to send application logs to Cloud Logging. Logging agents send data written to a file, such as `stdout` or a file, as logs to Cloud Logging. Using logging agents and relying on logging files such as `stdout` and `stderr` will
+ensure that application crashes don't break sending logs to your project. It will also reduce complex coding to explicitly handle buffering and retries using client libraries. For a detailed comparison of logging agents and
+client libraries, see [Choosing an agent or client libraries](https://cloud.google.com/logging/docs/agent-or-library#choosing).
 
 
 ## Samples
