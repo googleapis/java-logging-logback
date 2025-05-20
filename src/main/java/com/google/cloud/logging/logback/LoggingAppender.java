@@ -122,7 +122,7 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
   // See
   // https://github.com/googleapis/release-please/blob/main/docs/customizing.md#updating-arbitrary-files
   // {x-version-update-start:google-cloud-logging-logback:current}
-  public static final String DEFAULT_INSTRUMENTATION_VERSION = "0.132.6-alpha";
+  public static final String DEFAULT_INSTRUMENTATION_VERSION = "0.132.8-alpha-SNAPSHOT";
   // {x-version-update-end}
   private static boolean instrumentationAdded = false;
   private static final Object instrumentationLock = new Object();
@@ -538,19 +538,19 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
    */
   private static Severity severityFor(Level level) {
     switch (level.toInt()) {
-        // TRACE
+      // TRACE
       case 5000:
         return Severity.DEBUG;
-        // DEBUG
+      // DEBUG
       case 10000:
         return Severity.DEBUG;
-        // INFO
+      // INFO
       case 20000:
         return Severity.INFO;
-        // WARNING
+      // WARNING
       case 30000:
         return Severity.WARNING;
-        // ERROR
+      // ERROR
       case 40000:
         return Severity.ERROR;
       default:
