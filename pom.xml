@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>google-cloud-logging-logback</artifactId>
-  <version>0.132.8-alpha-SNAPSHOT</version><!-- {x-version-update:google-cloud-logging-logback:current} -->
+  <version>0.132.8-alpha</version><!-- {x-version-update:google-cloud-logging-logback:current} -->
   <packaging>jar</packaging>
   <name>Google Cloud Logging Logback Appender</name>
   <url>https://github.com/googleapis/java-logging-logback</url>
@@ -15,9 +15,9 @@
 
   <properties>
     <logback.version>1.2.13</logback.version>
-    <easymock.version>5.5.0</easymock.version>
+    <easymock.version>5.6.0</easymock.version>
     <truth.version>1.4.4</truth.version>
-    <logging.version>3.22.3</logging.version>
+    <logging.version>3.22.4</logging.version>
     <slf4j.version>1.7.36</slf4j.version>
     <google.api-common.version>1.10.1</google.api-common.version>
   </properties>
@@ -25,7 +25,7 @@
   <parent>
     <groupId>com.google.cloud</groupId>
     <artifactId>sdk-platform-java-config</artifactId>
-    <version>3.47.0</version>
+    <version>3.49.0</version>
   </parent>
 
   <developers>
