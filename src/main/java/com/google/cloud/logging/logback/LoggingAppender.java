@@ -213,7 +213,7 @@ public class LoggingAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
    * @param credentialsFile the path to the credentials file.
    */
   @ObsoleteApi(
-      "This method is obsolete because of a potential security risk. Use the setCredentials() instead")
+      "This method is obsolete because of a potential security risk. Use the setCredentials() method instead")
   public void setCredentialsFile(String credentialsFile) {
     this.credentialsFile = credentialsFile;
   }
