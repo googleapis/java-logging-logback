@@ -23,11 +23,13 @@ import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.filter.ThresholdFilter;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.LoggingEvent;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.MonitoredResource;
 import com.google.cloud.Timestamp;
 import com.google.cloud.logging.Instrumentation;
@@ -287,6 +289,19 @@ public class LoggingAppenderTest {
     verify(logging);
     assertThat(capturedArgument.getValue().iterator().hasNext()).isTrue();
     assertThat(capturedArgument.getValue().iterator().next()).isEqualTo(INFO_ENTRY);
+  }
+
+  @Test
+  public void testCreateLoggingOptionsWithValidCredentials() {
+    LoggingAppender appender = new LoggingAppender();
+    appender.setCredentials(GoogleCredentials.newBuilder().build());
+    appender.getLoggingOptions();
+  }
+
+  @Test
+  public void testCreateLoggingOptionsWithNullCredentials() {
+    LoggingAppender appender = new LoggingAppender();
+    assertThrows(NullPointerException.class, () -> appender.setCredentials(null));
   }
 
   @Test(expected = RuntimeException.class)
