@@ -27,16 +27,8 @@ source ${scriptDir}/common.sh
 mvn -version
 echo ${JOB_TYPE}
 
-declare -a VERSION_PROPERTIES_ARGS
-VERSION_PROPERTIES_ARGS=( $(extract_properties "compatibility-versions.properties") )
-PROPS_STRING=$(echo $(extract_properties "compatibility-versions.properties"))
-if [ -n "$PROPS_STRING" ]; then
-    echo "Injecting properties into MAVEN_OPTS: $PROPS_STRING"    
-    export MAVEN_OPTS="${MAVEN_OPTS} ${PROPS_STRING}"
-fi
-
-echo "mvn dependencies:tree"
-mvn dependencies:tree -Dverbose
+echo "mvn dependency:tree"
+mvn dependency:tree -Dverbose -Dincludes=com.google.cloud:google-cloud-logging
 
 echo "mvn help:effective-pom"
 mvn help:effective-pom -Dverbose
@@ -113,7 +105,6 @@ samples)
           -Dclirr.skip=true \
           -Denforcer.skip=true \
           -fae \
-          "${VERSION_PROPERTIES_ARGS[@]}"
           verify
         RETURN_CODE=$?
         popd
@@ -122,8 +113,7 @@ samples)
     fi
     ;;
 clirr)
-    mvn -B -ntp -Denforcer.skip=true clirr:check \
-        "${VERSION_PROPERTIES_ARGS[@]}"
+    mvn -B -ntp -Denforcer.skip=true clirr:check
     RETURN_CODE=$?
     ;;
 *)
