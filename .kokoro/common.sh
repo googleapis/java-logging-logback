@@ -57,4 +57,26 @@ function now() { date +"%Y-%m-%d %H:%M:%S" | tr -d '\n'; }
 function msg() { println "$*" >&2; }
 function println() { printf '%s\n' "$(now) $*"; }
 
-## Helper comment to trigger updated repo dependency release
+function extract_properties() {
+    local prop_file="$1"
+
+    # Check if file exists
+    if [ ! -f "$prop_file" ]; then
+        return 0
+    fi
+
+    # Run awk to output formatted flags
+    awk -F= '
+        # Skip comments and empty lines
+        /^#/ || /^[ \t]*$/ { next } 
+        {
+            # Trim whitespace
+            gsub(/^[ \t]+|[ \t]+$/, "", $1)
+            gsub(/^[ \t]+|[ \t]+$/, "", $2)
+            
+            # Print only valid pairs
+            if ($1 != "" && $2 != "") {
+                print "-D" $1 "=" $2
+            }
+        }' "$prop_file"
+}
