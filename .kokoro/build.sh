@@ -27,8 +27,8 @@ source ${scriptDir}/common.sh
 mvn -version
 echo ${JOB_TYPE}
 
-echo "mvn dependency:tree"
-mvn dependency:tree -Dverbose -Dincludes=com.google.cloud:google-cloud-logging
+echo "mvn dependency:tree for google-cloud-logging and gax"
+mvn dependency:tree -Dverbose -Dincludes=com.google.cloud:google-cloud-logging,com.google.api:gax
 
 echo "mvn help:effective-pom"
 mvn help:effective-pom -Dverbose
