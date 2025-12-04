@@ -11,7 +11,5 @@ branches:
     releaseType: java-yoshi
     branch: protobuf-4.x-rc
     manifest: true
-    extraFiles:
-    - src/main/java/com/google/cloud/logging/logback/LoggingAppender.java
 extraFiles:
   - src/main/java/com/google/cloud/logging/logback/LoggingAppender.java
