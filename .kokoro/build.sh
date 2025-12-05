@@ -27,6 +27,14 @@ source ${scriptDir}/common.sh
 mvn -version
 echo ${JOB_TYPE}
 
+echo "mvn dependency:tree for google-cloud-logging and gax"
+mvn dependency:tree -Dverbose -Dincludes=com.google.cloud:google-cloud-logging,com.google.api:gax
+
+echo "mvn help:effective-pom"
+mvn help:effective-pom -Dverbose
+
+echo "Installing the project"
+
 # attempt to install 3 times with exponential backoff (starting with 10 seconds)
 retry_with_backoff 3 10 \
   mvn install -B -V -ntp \
