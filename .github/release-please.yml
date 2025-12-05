@@ -2,6 +2,8 @@ bumpMinorPreMajor: true
 handleGHRelease: true
 releaseType: java-yoshi
 branches:
-    - branch: java7
+  - branch: java7
+  - branch: protobuf-4.x-rc
+    manifest: true
 extraFiles:
     - src/main/java/com/google/cloud/logging/logback/LoggingAppender.java
