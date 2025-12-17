@@ -28,7 +28,7 @@
     <dependency>
       <groupId>com.google.cloud</groupId>
       <artifactId>google-cloud-logging-logback</artifactId>
-      <version>0.133.0-alpha-rc1</version>
+      <version>0.133.0-alpha-rc2-SNAPSHOT-rc1</version>
     </dependency>
     <!-- {x-version-update-end} -->
 
