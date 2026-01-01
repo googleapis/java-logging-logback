@@ -22,8 +22,8 @@ import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.filter.ThresholdFilter;
@@ -52,13 +52,13 @@ import java.time.Instant;
 import java.util.Map;
 import org.easymock.Capture;
 import org.easymock.EasyMock;
-import org.easymock.EasyMockRunner;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.easymock.EasyMockExtension;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.MDC;
 
-@RunWith(EasyMockRunner.class)
+@ExtendWith(EasyMockExtension.class)
 public class LoggingAppenderTest {
   private static final String PROJECT_ID = "test-project";
   private static final String CRED_FILE_PROJECT_ID = "project-12345";
@@ -145,7 +145,7 @@ public class LoggingAppenderTest {
     }
   }
 
-  @Before
+  @BeforeEach
   public void setUp() {
     LoggingAppender.setInstrumentationStatus(true);
     logging = EasyMock.createStrictMock(Logging.class);
@@ -307,12 +307,12 @@ public class LoggingAppenderTest {
     assertThrows(NullPointerException.class, () -> appender.setCredentials(null));
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test
   public void testCreateLoggingOptionsWithInvalidCredentials() {
     final String nonExistentFile = "/path/to/non/existent/file";
     LoggingAppender appender = new LoggingAppender();
     appender.setCredentialsFile(nonExistentFile);
-    appender.getLoggingOptions();
+    assertThrows(RuntimeException.class, () -> appender.getLoggingOptions());
   }
 
   @Test

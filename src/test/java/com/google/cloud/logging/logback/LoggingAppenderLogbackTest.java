@@ -23,7 +23,7 @@ import ch.qos.logback.classic.joran.JoranConfigurator;
 import ch.qos.logback.core.joran.spi.JoranException;
 import com.google.api.gax.batching.FlowController.LimitExceededBehavior;
 import com.google.cloud.logging.LoggingOptions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

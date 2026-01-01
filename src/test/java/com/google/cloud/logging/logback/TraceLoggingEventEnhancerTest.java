@@ -21,19 +21,19 @@ import static com.google.common.truth.Truth.assertThat;
 import ch.qos.logback.classic.spi.LoggingEvent;
 import com.google.cloud.logging.LogEntry;
 import com.google.cloud.logging.Payload.StringPayload;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TraceLoggingEventEnhancerTest {
   private TraceLoggingEventEnhancer classUnderTest;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     classUnderTest = new TraceLoggingEventEnhancer();
   }
 
-  @After
+  @AfterEach
   public void tearDown() {
     TraceLoggingEventEnhancer.clearTraceId();
   }

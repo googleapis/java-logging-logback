@@ -22,13 +22,13 @@ import ch.qos.logback.classic.spi.LoggingEvent;
 import com.google.cloud.logging.LogEntry;
 import com.google.cloud.logging.Payload.StringPayload;
 import java.util.Collections;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class MDCEventEnhancerTest {
   private MDCEventEnhancer classUnderTest;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     classUnderTest = new MDCEventEnhancer();
   }

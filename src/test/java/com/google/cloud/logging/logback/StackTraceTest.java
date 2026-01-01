@@ -19,7 +19,7 @@ package com.google.cloud.logging.logback;
 import static com.google.common.truth.Truth.assertThat;
 
 import ch.qos.logback.classic.spi.ThrowableProxy;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class StackTraceTest {
   @Test
