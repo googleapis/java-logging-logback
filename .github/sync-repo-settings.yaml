@@ -39,5 +39,3 @@ permissionRules:
     permission: admin
   - team: yoshi-java
     permission: push
-  - team: api-logging-partners
-    permission: push    
