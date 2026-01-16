@@ -7,8 +7,9 @@
   "release_level": "preview",
   "language": "java",
   "repo": "googleapis/java-logging-logback",
-      "repo_short": "java-logging-logback",
-      "distribution_name": "com.google.cloud:google-cloud-logging-logback",
-      "codeowner_team": "@googleapis/yoshi-java",
-      "library_type": "OTHER",  "api_id": "logging.googleapis.com"
+  "repo_short": "java-logging-logback",
+  "distribution_name": "com.google.cloud:google-cloud-logging-logback",
+  "codeowner_team": "@googleapis/yoshi-java",
+  "library_type": "OTHER",
+  "api_id": "logging.googleapis.com"
 }
