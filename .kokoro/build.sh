@@ -56,7 +56,7 @@ lint)
     RETURN_CODE=$?
     ;;
 javadoc)
-    mvn javadoc:javadoc javadoc:test-javadoc -B -ntp
+    mvn javadoc:javadoc javadoc:test-javadoc -B -ntp -Denforcer.skip=true
     RETURN_CODE=$?
     ;;
 integration)
