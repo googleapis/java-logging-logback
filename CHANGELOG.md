@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [0.134.1-alpha](https://github.com/googleapis/java-logging-logback/compare/v0.134.0-alpha...v0.134.1-alpha) (2026-02-24)
+
+
+### Documentation
+
+* Redirect users to google-cloud-java ([#1607](https://github.com/googleapis/java-logging-logback/issues/1607)) ([9ec248f](https://github.com/googleapis/java-logging-logback/commit/9ec248fbdd895a46d827d4a93602219e4ad64b1d))
+
 ## [0.134.0-alpha](https://github.com/googleapis/java-logging-logback/compare/v0.133.0-alpha...v0.134.0-alpha) (2026-02-12)
 
 
